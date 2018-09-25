@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <h1>Hello word</h1>
+    <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
 }
 </script>
 
-<style>
-
+<style lang="stylus">
+  body
+    margin 0
 </style>
