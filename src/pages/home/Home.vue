@@ -3,7 +3,7 @@
     <el-container>
       <el-header><home-header @change="handleClick"></home-header></el-header>
       <el-container>
-        <el-aside width="200px"><home-aside :style="{display}"></home-aside></el-aside>
+        <el-aside width="200px" class="hidden-sm-and-down"><home-aside :style="{display}"></home-aside></el-aside>
         <el-container>
           <el-main><home-content></home-content></el-main>
           <el-footer><home-footer></home-footer></el-footer>
@@ -58,7 +58,6 @@ export default {
     width 100px
     top 60px
   .el-main
-    margin-left 200px
     margin-top 60px
     text-align center
     padding 0

@@ -1,10 +1,10 @@
 <template>
   <div class="aside">
     <el-row>
-      <el-col :span="4" :offset="20">
+      <el-col :lg="8" :offset="8">
         <img src="@/assets/img.jpeg" class="img-full"/>
       </el-col>
-      <el-col :span="12">
+      <el-col>
         <el-menu default-active="2" class="el-menu-vertical" @open="handleOpen" @close="handleClose">
           <el-submenu index="1">
             <template slot="title">
@@ -49,6 +49,11 @@
 <script>
 export default {
   name: 'Aside',
+  data () {
+    return {
+      isCollapse: true
+    }
+  },
   methods: {
     handleOpen () {
 
@@ -61,6 +66,7 @@ export default {
 
 <style lang="stylus" scoped>
   .img-full
+    border-radius: 30px;
     width 60px
     height 60px
     margin-top 20px
@@ -68,10 +74,9 @@ export default {
 
   .aside
     height 1000px
-    background-color white
+    background-color rgba(255,255,255,0.41)
   .el-menu
-    background-color rgba(255,255,255,0)
-    border 0
-    position fixed
+    background-color rgba(255,255,255,0.41)
     width 200px
+    border 0
 </style>
