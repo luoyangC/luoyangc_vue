@@ -42,4 +42,9 @@ export default {
     text-decoration:none;
     cursor:pointer
     color #00a1d6
+  .line-limit-length
+    overflow: hidden
+    margin 0
+    text-overflow: ellipsis
+    white-space: nowrap
 </style>

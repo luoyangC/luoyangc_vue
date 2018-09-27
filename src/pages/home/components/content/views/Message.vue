@@ -15,8 +15,8 @@
         <div class="message-item">
           <el-card>
             <h2>『关于本页』</h2>
-            <p>你可以在本页写下你对本站的建议</p>
-            <p>当然写了我也不一定改~(￣▽￣)~*</p>
+            <p>对本站有什么建议或者想对开发者说的话都可以写在留言中</p>
+            <p>留言采取匿名的方式发表，想写什么都可以哦~(￣▽￣)~*</p>
             <div>
               <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 4}" placeholder="请输入内容"></el-input>
             </div>

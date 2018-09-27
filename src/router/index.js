@@ -9,6 +9,9 @@ import Archives from '@/pages/home/components/content/views/Archives'
 import Article from '@/pages/home/components/content/views/Article'
 import Cross from '@/pages/home/components/content/views/Cross'
 import Message from '@/pages/home/components/content/views/Message'
+import ArticleContent from '@/pages/home/components/content/views/ArticleContent'
+import Registe from '@/pages/home/components/content/views/Registe'
+import Editor from '@/pages/home/components/content/views/Editor'
 
 Vue.use(Router)
 
@@ -38,6 +41,18 @@ export default new Router({
         {
           path: '/about',
           component: About
+        },
+        {
+          path: '/registe',
+          component: Registe
+        },
+        {
+          path: '/content/:id',
+          component: ArticleContent
+        },
+        {
+          path: '/editor',
+          component: Editor
         }
       ]
     },

@@ -18,9 +18,10 @@
             <h2>『关于我』 About me</h2>
             <ul>
               <li>2019年毕业于南京信息工程大学滨江学院计算机系网络工程专业</li>
-              <li>虽然所学为网络工程专业，但个人爱好更偏向于编程和Web方向</li>
-              <li>使用最熟练的编程语言是Python，熟悉Python Web主流框架包括Flask、Django</li>
-              <li>同时对于前端技术也有一定的了解，比如常用的前端框架Vue.js</li>
+              <li>虽然所学为网络工程专业，但个人爱好更偏向于编程和Web方向，喜欢专研技术</li>
+              <li>使用最熟练的编程语言是Python，熟悉Python Web主流框架，包括Flask、Django</li>
+              <li>同时也熟悉使用Python的分布式爬虫框架Scrapy，以及搜索引擎框架ElasticSearch</li>
+              <li>对于前端技术也有一定的了解，比如常用的前端框架Vue.js</li>
               <li>对于服务器部署方面也有一定的了解，熟悉Linux常用命令，熟悉Docker、Nginx等服务器软件</li>
               <li>对于新兴技术有着强烈的学习兴趣，如大数据、区块链、机器学习、人工智能等都有广泛关注</li>
               <li>未来发展目标是成为一名全栈工程师</li>
@@ -35,7 +36,7 @@
               <li>本站域名注册和服务器托管均使用<a href="https://www.aliyun.com/"> 阿里云</a></li>
               <li>本站是一个前后端分离的项目，通过RESTful API进行数据交互</li>
               <li>前端使用Vue.js构建，后端使用Python的Django构建</li>
-              <li>整个项目通过Docker打包</li>
+              <li>整个项目通过Docker打包，所有源代码都以同步到我的 <a href="https://github.com/luoyangC">Github</a></li>
             </ul>
           </el-card>
         </div>
@@ -48,6 +49,7 @@
               <li>Email: 1769570627@qq.com</li>
               <li>Gitee: <a href="https://gitee.com/luoyang_C">https://gitee.com/luoyang_C</a></li>
               <li>GitHub: <a href="https://github.com/luoyangC">https://github.com/luoyangC</a></li>
+              <li>LeetCode: <a href="https://leetcode-cn.com/luoyangc">https://leetcode-cn.com/luoyangc</a></li>
             </ul>
           </el-card>
         </div>

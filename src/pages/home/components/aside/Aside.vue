@@ -21,7 +21,9 @@
               <span>分类</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1"><router-link tag="span" to="/article" >Vue</router-link></el-menu-item>
+              <el-menu-item index="2-1" v-for="item of categorys" :key="item.id">
+                <router-link tag="span" to="/article" >{{item.title}}</router-link>
+              </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="3">
@@ -47,11 +49,15 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
+import {getAllCategory} from "../../../../api"
+
 export default {
   name: 'Aside',
   data () {
     return {
-      isCollapse: true
+      isCollapse: true,
+      categorys: [],
     }
   },
   methods: {
@@ -59,7 +65,20 @@ export default {
 
     },
     handleClose () {
+    },
+    getCategory () {
+      getAllCategory ()
+        .then((response)=> {
+          console.log(response)
+          this.categorys = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
+  },
+  created () {
+    this.getCategory()
   }
 }
 </script>

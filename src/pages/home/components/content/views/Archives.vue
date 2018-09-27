@@ -15,7 +15,7 @@
         <div class="archives-item">
           <el-card>
             <h2>『关于本页』</h2>
-            <p>这个页面是用来记录一些个人的日常生活的</p>
+            <p>这个页面是用来记录一些个人的日常动态的</p>
           </el-card>
         </div>
         <div class="archives-item">
