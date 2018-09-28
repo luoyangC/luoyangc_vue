@@ -20,7 +20,10 @@
           <vue-markdown v-highlight :source=content.content></vue-markdown><hr>
         </div>
         <div class="content-operation">
-          <el-button style="color: red" round icon="iconfont icon-like">喜欢 | 100</el-button>
+          <el-button v-if="content.is_fav" @click="deleteFav" style="color: red" round icon="iconfont icon-like_fill">取消 | {{content.fav_nums}}</el-button>
+          <el-button v-else @click="addFav" style="color: red" round icon="iconfont icon-like">收藏 | {{content.fav_nums}}</el-button>
+          <el-button v-if="content.is_like" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
+          <el-button v-else style="color: red" circle icon="iconfont icon-praise"></el-button>
           <el-button style="float: right" round>更多分享</el-button>
           <el-tooltip style="float: right"  effect="dark" content="分享到微博" placement="top-start">
             <el-button style="color: rgb(234, 93, 92)" icon="iconfont icon-weibo1" circle></el-button>
@@ -32,7 +35,7 @@
         <div class="content-input">
           <div v-if="isLogin">
             <h3>在此添加评论:</h3>
-            <el-input placeholder="请输入内容">
+            <el-input placeholder="请输入评论内容" v-model="commentInfo" @keyup.enter.native="addComment">
               <i slot="prefix" class="el-input__icon el-icon-edit"></i>
             </el-input>
           </div>
@@ -49,33 +52,69 @@
                 <img :src="item.user.image" class="user-img"/>
               </div>
               <div style="float: left; margin-left: 20px">
-                <span>{{item.user.username}} </span><span>2018-10-1,10:25:31</span>
-                <p style="margin: 0">{{item.content}}</p>
+                <p class="line-limit-length">{{item.user.username}} </p>
+                <p class="line-limit-length">2018-10-1,10:25</p>
               </div>
+              <div style="float: right;">
+                <a v-if="item.is_like"><i class="iconfont" @click.stop="likeChange">&#xe71a; {{item.like_nums}}</i></a>
+                <a v-else><i class="iconfont" @click.stop="likeChange">&#xe71b; {{item.like_nums}}</i></a>
+              </div>
+              <div v-show="item.user.username===isLogin" style="float: right;margin-right: 20px">
+                <a @click="deleteComment(item.id)">删除该评论</a>
+              </div>
+            </div>
+            <div class="comment-info" style="margin-left: 70px">
+              <p style="text-align: left">{{item.content}}</p>
             </div>
             <div style="text-align: left; margin-left: 75px">
               <el-collapse v-model="activeName" accordion>
                 <el-collapse-item :name="item.id">
-                  <div slot="title">
-                    <i class="iconfont">&#xe6a7; {{item.replys.length}}</i>&nbsp;&nbsp;
-                    <i v-if="like" class="iconfont" @click.stop="likeChange">&#xe71a; {{item.like_nums}}</i>
-                    <i v-else class="iconfont" @click.stop="likeChange">&#xe71b; {{item.like_nums}}</i>
-                    <span style="float: right">查看全部回复</span>
+                  <div @click="clickReply(item.user.id)" class="comment-operation" slot="title">
+                    <a><i class="iconfont">&#xe6a7; {{item.replys.length}}&nbsp;&nbsp;查看全部回复</i></a>
                   </div>
-                  <div v-for="reply of item.replys" :key="reply.id">
+                  <div class="reply-list" v-for="reply of item.replys" :key="reply.id">
                     <div class="commenter-info">
-                    <div style="float: left">
-                      <img :src="reply.from_user.image" class="user-img"/>
+                      <div style="float: left"><img :src="reply.from_user.image" class="user-img"/></div>
+                      <div style="float: left; margin-left: 20px">
+                        <p class="line-limit-length">{{reply.from_user.username}} 回复 <a href="#">{{reply.to_user.username}} </a></p>
+                        <p class="line-limit-length">2018-10-1,10:25</p>
+                      </div>
+                      <div style="float: right;">
+                        <a v-if="reply.is_like"><i class="iconfont" @click.stop="likeChange">&#xe71a; {{item.like_nums}}</i></a>
+                        <a v-else><i class="iconfont" @click.stop="likeChange">&#xe71b; {{item.like_nums}}</i></a>
+                        <div style="margin-right: 10px" v-if="reply.from_user.username===isLogin">
+                          <a><i class="iconfont" @click="deleteReply(reply.id)">删除</i></a>
+                        </div>
+                        <div style="margin-right: 10px" v-else>
+                          <a><i class="iconfont" @click="clickReply(reply.from_user.id)">回复</i></a>
+                        </div>
+                      </div>
                     </div>
-                    <div style="float: left; margin-left: 20px">
-                      <span>{{reply.from_user.username}} </span>
-                      <span>回复 </span>
-                      <span><a href="#">{{reply.to_user.username}} </a></span>
-                      <span>2018-10-1,10:25:31</span>
-                      <p style="margin: 0">{{reply.content}}</p>
+                    <div class="reply-info">
+                      <p>{{reply.content}}</p>
                     </div>
+                    <hr>
                   </div>
-                    <br>
+                  <div>
+                    <el-input v-if="isLogin" v-model="replyInfo" placeholder="回复内容" @keyup.enter.native="addReply(item.id)">
+                      <!--<el-upload-->
+                        <!--slot="prepend"-->
+                        <!--class="upload-demo iconfont icon-tupian"-->
+                        <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+                        <!--:on-preview="handlePreview"-->
+                        <!--:on-remove="handleRemove"-->
+                        <!--:before-remove="beforeRemove"-->
+                        <!--multiple-->
+                        <!--:limit="3"-->
+                        <!--:on-exceed="handleExceed"-->
+                        <!--:file-list="fileList">-->
+                        <!--<el-button size="small" type="primary"></el-button>-->
+                      <!--</el-upload>-->
+                    </el-input>
+                    <div v-else>
+                      <p style="margin-bottom: 0; margin-top: 20px">请先点击右上角登录，才能回复哦</p>
+                      <p style="margin-bottom: 0;">如果还没有账号，欢迎 <router-link to="/registe">注册</router-link></p>
+                    </div>
                   </div>
                 </el-collapse-item>
               </el-collapse>
@@ -105,7 +144,8 @@
 <script>
 /* eslint-disable no-console */
 import VueMarkdown from 'vue-markdown'
-import {getArticleContent, getCommentList} from "../../../../../api"
+import {addComment, addReply, getArticleContent, getCommentList, deleteReply, deleteComment} from "../../../../../api"
+import {addFavArticle, deleteFavArticle} from "../../../../../api"
 export default {
   name: 'ArticleContent',
   components: {
@@ -113,16 +153,87 @@ export default {
   },
   data () {
     return {
-      isLogin: false,
-      like: true,
+      isLogin: this.$store.state.userInfo.name,
       activeName: '1',
       commentList: [],
       content: '',
-      username: ''
+      username: '',
+      commentInfo: '',
+      replyInfo: '',
+      to_user_id: 0,
     }
   },
   methods: {
-    likeChange() {
+    deleteFav () {
+      deleteFavArticle (this.content.is_fav)
+        .then((response) => {
+          console.log(response)
+          this.content.is_fav = 0
+        }).catch((error) => {
+          console.log(error)
+      })
+    },
+    addFav () {
+      addFavArticle ({article:this.content.id})
+        .then((response) => {
+          console.log(response)
+          this.content.is_fav = response.data.id
+        }).catch((error) => {
+          console.log(error)
+      })
+    },
+    deleteComment (commentId) {
+      this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteComment (commentId)
+          .then((response) => {
+            console.log(response)
+            this.getComment()
+          }).catch((error) => {
+            console.log(error)
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    deleteReply (reply_id) {
+      this.$confirm('此操作将永久删除该回复, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteReply ((reply_id))
+          .then((response) => {
+            console.log(response)
+            this.getComment()
+          }).catch((error) => {
+            console.log(error)
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    clickReply (user_id) {
+      this.to_user_id = user_id
+    },
+    likeChange () {
       this.like = !this.like
     },
     getArticle () {
@@ -141,11 +252,35 @@ export default {
         .then((response)=> {
           this.commentList = response.data
           console.log(response)
-
         }).catch(function (error) {
         console.log(error);
       });
-    }
+    },
+    addComment () {
+      addComment ({article:this.content.id,content:this.commentInfo})
+        .then((response)=> {
+          console.log(response)
+          this.getComment()
+          this.commentInfo = ''
+        }).catch((error) => {
+          console.log(error)
+      })
+    },
+    addReply (comment) {
+      if (this.to_user_id == 0){
+        alert('请选择回复用户')
+      }else {
+        addReply({comment: comment, content: this.replyInfo, to_user_id: this.to_user_id})
+          .then((response) => {
+            console.log(response)
+            this.getComment()
+            this.replyInfo = ''
+            this.to_user_id = 0
+          }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
   },
   created () {
     this.getArticle()
@@ -199,7 +334,6 @@ export default {
       text-align left
       width 100%
       height 50px
-      background-color rgba(247,247,247,1)
       line-height 25px
       .user-img
         width 50px

@@ -24,13 +24,15 @@
         <i class="iconfont" @click="userMessage">&#xe720;</i>
       </el-col>
       <el-col :lg="2" :md="2" :sm="3" class="hidden-sm-and-down">
-        <el-popover
-          width="300"
-          trigger="click">
-          <p>用户名</p><el-input type="text" placeholder="user"></el-input>
-          <p>密  码</p><el-input type="password" placeholder="password"></el-input>
+        <span v-if="isLogin" @click="logout">注销 </span>
+        <el-popover v-else width="300" trigger="click">
+          <p>用户名</p><el-input type="text" placeholder="username" v-model="userName"></el-input>
+          <p>密  码</p><el-input type="password" placeholder="password" v-model="passWord"></el-input>
           <br><br>
-          <el-input type="submit"></el-input>
+          <div style="text-align: center">
+            <el-button @click="login">立即登录</el-button>
+            <p>若无账号请先<router-link to="/registe"> 注册</router-link></p>
+          </div>
           <span slot="reference">登录 </span>
         </el-popover>
         <i class="el-icon-caret-bottom"></i>
@@ -43,11 +45,22 @@
 </template>
 
 <script>
+/* eslint-disable no-console*/
+
+import {login} from "../../../../api"
+import cookie from "../../../../assets/js/cookie"
+
 export default {
   name: 'Head',
   data () {
     return {
-      searchInput: ''
+      searchInput: '',
+      userName: '',
+      passWord: '',
+      error: '',
+      userNameError: '',
+      passWordError: '',
+      isLogin: this.$store.state.userInfo.name
     }
   },
   methods: {
@@ -55,11 +68,16 @@ export default {
       this.$emit('change')
     },
     userCenter () {
-      this.$notify({
-        title: '警告',
-        message: '请先登录',
-        type: 'warning'
-      });
+      if (this.isLogin) {
+        console.log(this.$store.state.userInfo)
+      }
+      else {
+        this.$notify({
+          title: '警告',
+          message: '请先登录',
+          type: 'warning'
+        });
+      }
     },
     userMessage () {
       this.$notify({
@@ -67,7 +85,42 @@ export default {
         message: '请先登录',
         type: 'warning'
       });
-    }
+    },
+    login () {
+      console.log(this)
+      login({username:this.userName, password:this.passWord})
+        .then((response)=> {
+          console.log(response);
+          //本地存储用户信息
+          cookie.setCookie('name',this.userName,7);
+          cookie.setCookie('token',response.data.token,7);
+          console.log(this)
+          //更新Store的数据
+          this.$store.dispatch('setInfo');
+          this.$router.go(0)
+        })
+        .catch(function (error) {
+          if("non_field_errors" in error){
+            this.error = error.non_field_errors[0];
+          }
+          if("username" in error){
+            this.userNameError = error.username[0];
+          }
+          if("password" in error){
+            this.passWordError = error.password[0];
+          }
+          console.log(error)
+        });
+    },
+    logout (){
+      //清空本地数据
+      cookie.delCookie('token');
+      cookie.delCookie('name');
+      //重新触发store
+      //更新store数据
+      this.$store.dispatch('setInfo');
+      this.$router.go(0)
+    },
   }
 }
 </script>

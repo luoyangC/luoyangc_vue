@@ -9,16 +9,21 @@
         <div class="registe-from">
           <el-card style="width: 40%;justify-content: center">
             <div>
-              <el-input prefix-icon="iconfont icon-yonghu"></el-input>
+              <el-input prefix-icon="iconfont icon-yonghu" placeholder="用户名" v-model="username"></el-input>
             </div>
             <div>
-              <el-input prefix-icon="iconfont icon-mail"></el-input>
+              <el-input prefix-icon="iconfont icon-mail" placeholder="邮箱" v-model="email">
+                <el-button @click="getRegisteCode" slot="append">获取验证码</el-button>
+              </el-input>
             </div>
             <div>
-              <el-input prefix-icon="iconfont icon-iconfontmima"></el-input>
+              <el-input prefix-icon="iconfont icon-yanzhengma2" placeholder="邮箱验证码" v-model="code"></el-input>
             </div>
             <div>
-              <el-input type="submit" value="注册"></el-input>
+              <el-input type="password" prefix-icon="iconfont icon-iconfontmima" placeholder="密码" v-model="password"></el-input>
+            </div>
+            <div>
+              <el-button @click="register">立即注册</el-button>
             </div>
             <div>
               <p>点击 “注册” 即表示您同意并愿意遵守以下协议</p>
@@ -27,7 +32,6 @@
             <br><hr>
             <div>
               <p>----第三方登录----</p>
-
               <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin"></i>
               <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq"></i>
               <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo"></i>
@@ -49,8 +53,41 @@
 </template>
 
 <script>
+  /* eslint-disable no-console */
+
+  import {getEmailCode, register} from "../../../../../api"
+
 export default {
-  name: 'registe'
+  name: 'registe',
+  data () {
+    return {
+      username: '',
+      email: '',
+      code: '',
+      password: '',
+    }
+  },
+  methods: {
+    getRegisteCode () {
+      getEmailCode ({email:this.email,send_type:'register'})
+        .then((response) => {
+          console.log(response)
+          alert('邮件发送成功，验证码的过期时间是5分钟，请注意查收')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    register () {
+      register ({username:this.username, email:this.email, code:this.code, password:this.password})
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
 }
 </script>
 
@@ -76,12 +113,12 @@ export default {
     height: 1000px
     .registe-from
       width 100%
-      height 500px
+      height 600px
       display flex
       justify-content center
       align-items center
       background-color white
       .el-input
-        font-size 20px
-        line-height 50px
+        font-size 16px
+        margin-top 10px
 </style>
