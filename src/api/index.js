@@ -14,7 +14,7 @@ export const getAllCategory = () => { return axios.get(`${local_host}/category/`
 export const getArticleContent = (articleId) => { return axios.get(`${local_host}/article/${articleId}`+'/') }
 
 // 获取评论数据
-export const getCommentList = (params) => { return axios.get(`${local_host}/comment/`, params) }
+export const getCommentList = (params) => { return axios.get(`${local_host}/comment/`, {params:params}) }
 
 // 获取验证码
 export const getEmailCode = (data) => { return axios.post(`${local_host}/code/`, data) }

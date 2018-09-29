@@ -1,12 +1,20 @@
 <template>
   <div class="home">
     <el-container>
-      <el-header><home-header @change="handleClick"></home-header></el-header>
+      <el-header>
+        <home-header @change="handleClick"></home-header>
+      </el-header>
       <el-container>
-        <el-aside width="200px" class="hidden-sm-and-down"><home-aside :style="{display}"></home-aside></el-aside>
+        <el-aside width="200px" class="hidden-sm-and-down">
+          <home-aside :style="{display}"></home-aside>
+        </el-aside>
         <el-container>
-          <el-main><home-content></home-content></el-main>
-          <el-footer><home-footer></home-footer></el-footer>
+          <el-main>
+            <home-content></home-content>
+          </el-main>
+          <el-footer>
+            <home-footer></home-footer>
+          </el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -14,15 +22,13 @@
 </template>
 
 <script>
-import HomeHeader from './components/header/Header'
-import HomeAside from './components/aside/Aside'
-import HomeContent from './components/content/Content'
-import HomeFooter from './components/footer/Footer'
-import Container from "../demo/components/Container"
+import HomeHeader from '../header/Header'
+import HomeAside from '../aside/Aside'
+import HomeContent from '../content/Content'
+import HomeFooter from '../footer/Footer'
 export default {
   name: 'Home',
   components: {
-    Container,
     HomeHeader,
     HomeAside,
     HomeContent,

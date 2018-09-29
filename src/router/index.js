@@ -1,17 +1,16 @@
+/* eslint-disable no-unused-vars */
 import Vue from 'vue'
 import Router from 'vue-router'
-import Demo from '@/pages/demo/Demo'
-import Layout from '@/pages/demo/components/Layout'
-import Container from '@/pages/demo/components/Container'
-import Home from '@/pages/home/Home'
-import About from '@/pages/home/components/content/views/About'
-import Archives from '@/pages/home/components/content/views/Archives'
-import Article from '@/pages/home/components/content/views/Article'
-import Cross from '@/pages/home/components/content/views/Cross'
-import Message from '@/pages/home/components/content/views/Message'
-import ArticleContent from '@/pages/home/components/content/views/ArticleContent'
-import Registe from '@/pages/home/components/content/views/Registe'
-import Editor from '@/pages/home/components/content/views/Editor'
+
+import Home from '../pages/home/Home'
+import About from '../pages/content/components/About'
+import Archives from '../pages/content/components/Archives'
+import Article from '../pages/content/components/Article'
+import Cross from '../pages/content/components/Cross'
+import Message from '../pages/content/components/Message'
+import ArticleContent from '../pages/content/components/ArticleContent'
+import Registe from '../pages/content/components/Registe'
+import Editor from '../pages/content/components/Editor'
 
 Vue.use(Router)
 
@@ -55,21 +54,9 @@ export default new Router({
           component: Editor
         }
       ]
-    },
-    {
-      path: '/demo',
-      name: 'demo',
-      component: Demo,
-      children: [
-        {
-          path: '/layout',
-          component: Layout
-        },
-        {
-          path: '/container',
-          component: Container
-        }
-      ]
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return {x: 0, y: 0}
+  }
 })
