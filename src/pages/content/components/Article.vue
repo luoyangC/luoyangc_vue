@@ -1,42 +1,11 @@
 <template>
   <div class="article">
     <el-row>
+      <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
-        <div class="article-item" style="margin-top: 0">
-          <el-row>
-            <el-col :lg="16" :md="18" style="margin-top: 0">
-              <div style="height: 350px; background-color: #f4a7b9">
-                <el-carousel height="350px">
-                  <el-carousel-item>
-                    <div class="carousel-title">Django 项目笔记</div>
-                    <img style="height: 450px" src="@/assets/img/r1.png"/>
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <div class="carousel-title">Django 项目笔记</div>
-                    <img style="height: 450px" src="@/assets/img/r2.png"/>
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <div class="carousel-title">Django 项目笔记</div>
-                    <img style="height: 450px" src="@/assets/img/r3.png"/>
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <div class="carousel-title">Django 项目笔记</div>
-                    <img style="height: 450px" src="@/assets/img/r4.png"/>
-                  </el-carousel-item>
-                </el-carousel>
-              </div>
-            </el-col>
-            <el-col :lg="7" :offset="1" style="margin-top: 0">
-              <div style="height: 350px;background-color: white; text-align: left; overflow: hidden">
-                <img style="margin-top: 20px" width="250px" height="250px" src="@/assets/img/hj.gif">
-                <div style="background-color: #f1f1f1; position: relative; margin-top: 20px; line-height: 60px; font-size: 20px">
-                  <span style="margin-left: 16px">luoyangc</span>
-                  <i style="float: right; margin-right: 16px" class="iconfont">&#xe72e;</i>
-                  <i style="float: right; margin-right: 16px" class="iconfont">&#xe696;</i>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
+        <div class="article-image">
+          <img src="@/assets/img/article-img.png">
+          <h1 class="article-title">文章列表页</h1>
         </div>
         <div class="article-item" v-for="item of articles" :key="item.id">
           <div class="article-image">
@@ -55,7 +24,7 @@
                 <p style="margin: 2px">{{item.user.nick_name}}</p>
                 <p>{{timeFormat(item.update_time)}}</p>
               </div>
-              <div style="margin-right:20px;margin-top: 20px;float: right">
+              <div style="margin-right:16px;margin-top: 30px;float: right; font-size: small">
                 <a href="#">评论数: {{item.comment_nums}} </a>&nbsp;<a href="#">点赞数: {{item.fav_nums}} </a>&nbsp;<a href="#">阅读数: {{item.view_nums}} </a>
               </div>
             </div>
@@ -70,9 +39,9 @@
             <span> Article</span>
           </div>
         </router-link>
-        <router-link tag="div" to="/cross" >
+        <router-link tag="div" to="/message" >
           <div class="article-item article-next" style="float: right">
-            <span>Cross </span>
+            <span>Message </span>
             <el-button icon="el-icon-arrow-right" circle></el-button>
           </div>
         </router-link>
@@ -95,7 +64,7 @@ export default {
   },
   methods: {
     timeFormat (time) {
-      return moment(time).format('YYYY-MM-DD, H:m:s')
+      return moment(time).format('YYYY-MM-DD')
     },
     getAllArticle () {
       getNewArticle ()
@@ -115,6 +84,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .article-image
+    width 100%
+    overflow hidden
+    img
+      width 100%
+    .article-title
+      color white
+      text-align left
+      font-size 30px
+      line-height 50px
+      margin-left 6px
+      margin-top -50px
+      margin-bottom 0
+      top 100%
   .carousel-title
     display flex
     position absolute
@@ -126,14 +109,13 @@ export default {
     margin-bottom 20px
     background-color rgba(41,41,41,0.6)
   .el-col
-    margin-top 100px
     background-color rgba(255,255,255,0.5)
     .article-item
       margin-top 40px
       .article-image
         position relative
+        background-color white
         width 100%
-        height 300px
         overflow hidden
         img
           width 100%
@@ -144,8 +126,8 @@ export default {
           bottom 0
           color white
           font-size 25px
-          margin-left 20px
-          margin-bottom 20px
+          margin-left 0
+          margin-bottom 4px
           background-color rgba(41,41,41,0.6)
       .article-content
         text-align left

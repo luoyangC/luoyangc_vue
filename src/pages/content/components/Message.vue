@@ -1,10 +1,11 @@
 <template>
   <div>
     <el-row>
+      <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
         <div class="message-image">
-          <h1 class="message-title">留言板</h1>
           <img src="@/assets/img/message-img.png">
+          <h1 class="message-title">留言板</h1>
         </div>
         <div class="message-item message-update-time">
           <el-card>
@@ -61,20 +62,21 @@ export default {
 
 <style lang="stylus" scoped>
   .el-col
-    margin-top 100px
     background-color rgba(255,255,255,0.5)
     .message-image
       width 100%
-      height 300px
       overflow hidden
       img
         width 100%
       .message-title
-        position absolute
         color white
-        font-size 40px
-        margin-left 20px
-        top 280px
+        text-align left
+        font-size 30px
+        line-height 50px
+        margin-left 6px
+        margin-top -50px
+        margin-bottom 0
+        top 100%
     .message-item
       margin-top 40px
       text-align left

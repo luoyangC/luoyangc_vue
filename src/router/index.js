@@ -20,39 +20,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+      redirect:'/article',
       children: [
-        {
-          path: '/article',
-          component: Article
-        },
-        {
-          path: '/cross',
-          component: Cross
-        },
-        {
-          path: '/archives',
-          component: Archives
-        },
-        {
-          path: '/message',
-          component: Message
-        },
-        {
-          path: '/about',
-          component: About
-        },
-        {
-          path: '/registe',
-          component: Registe
-        },
-        {
-          path: '/content/:id',
-          component: ArticleContent
-        },
-        {
-          path: '/editor',
-          component: Editor
-        }
+        {path: '/article', component: Article, meta:{index:0}},
+        {path: '/cross', component: Cross, meta:{index:2}},
+        {path: '/archives', component: Archives, meta:{index:3}},
+        {path: '/message', component: Message, meta:{index:1}},
+        {path: '/about', component: About, meta:{index:4}},
+        {path: '/registe', component: Registe, meta:{index:5}},
+        {path: '/content/:id', component: ArticleContent, meta:{index:6}},
+        {path: '/editor', component: Editor, meta:{index:7}},
       ]
     }
   ],

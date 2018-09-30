@@ -1,10 +1,11 @@
 <template>
   <div class="about">
     <el-row>
+      <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
         <div class="about-image">
-          <h1 class="about-title">关于</h1>
           <img src="@/assets/img/about-img.png">
+          <h1 class="about-title">关于</h1>
         </div>
         <div class="about-item about-update-time">
           <el-card>
@@ -30,7 +31,7 @@
         </div>
         <div class="about-item about-lyc">
           <el-card>
-            <h2>『关于本站』 About luoyangc.cn</h2>
+            <h2>『关于本站』 About this</h2>
             <ul>
               <li>本站于2018年10月1日上线</li>
               <li>本站域名注册和服务器托管均使用<a href="https://www.aliyun.com/"> 阿里云</a></li>
@@ -75,20 +76,21 @@ export default {
 
 <style lang="stylus" scoped>
   .el-col
-    margin-top 100px
     background-color rgba(255,255,255,0.5)
     .about-image
       width 100%
-      height 300px
       overflow hidden
       img
         width 100%
       .about-title
-        position absolute
         color white
-        font-size 40px
-        margin-left 20px
-        top 280px
+        text-align left
+        font-size 30px
+        line-height 50px
+        margin-left 6px
+        margin-top -50px
+        margin-bottom 0
+        top 100%
     .about-item
       margin-top 40px
       text-align left

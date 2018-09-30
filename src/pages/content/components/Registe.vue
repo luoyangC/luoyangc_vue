@@ -1,13 +1,14 @@
 <template>
   <div class="registe">
     <el-row>
+      <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
         <div class="registe-image">
-          <h1 class="registe-title">注册</h1>
           <img src="@/assets/img/about-img.png">
+          <h1 class="registe-title">注册</h1>
         </div>
         <div class="registe-from">
-          <el-card style="width: 40%;justify-content: center">
+          <el-card class="hidden-sm-and-down" style="width: 50%;justify-content: center">
             <div>
               <el-input prefix-icon="iconfont icon-yonghu" placeholder="用户名" v-model="username"></el-input>
             </div>
@@ -21,7 +22,37 @@
             </div>
             <div>
               <el-input type="password" prefix-icon="iconfont icon-iconfontmima" placeholder="密码" v-model="password"></el-input>
+            </div><br>
+            <div>
+              <el-button @click="register">立即注册</el-button>
             </div>
+            <div>
+              <p>点击 “注册” 即表示您同意并愿意遵守以下协议</p>
+              <p><a href="#">用户协议</a> 和 <a href="#">隐私政策</a></p>
+            </div>
+            <br><hr>
+            <div>
+              <p>----第三方登录----</p>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo"></i>
+            </div>
+          </el-card>
+          <el-card class="hidden-md-and-up" style="width: 90%;justify-content: center">
+            <div>
+              <el-input prefix-icon="iconfont icon-yonghu" placeholder="用户名" v-model="username"></el-input>
+            </div>
+            <div>
+              <el-input prefix-icon="iconfont icon-mail" placeholder="邮箱" v-model="email">
+                <el-button @click="getRegisteCode" slot="append">获取验证码</el-button>
+              </el-input>
+            </div>
+            <div>
+              <el-input prefix-icon="iconfont icon-yanzhengma2" placeholder="邮箱验证码" v-model="code"></el-input>
+            </div>
+            <div>
+              <el-input type="password" prefix-icon="iconfont icon-iconfontmima" placeholder="密码" v-model="password"></el-input>
+            </div><br>
             <div>
               <el-button @click="register">立即注册</el-button>
             </div>
@@ -93,20 +124,21 @@ export default {
 
 <style lang="stylus" scoped>
   .el-col
-    margin-top 100px
     background-color rgba(255,255,255,0.5)
     .registe-image
       width 100%
-      height 300px
       overflow hidden
       img
         width 100%
       .registe-title
-        position absolute
         color white
-        font-size 40px
-        margin-left 20px
-        top 280px
+        text-align left
+        font-size 30px
+        line-height 50px
+        margin-left 6px
+        margin-top -50px
+        margin-bottom 0
+        top 100%
   .registe
     margin: auto
     width: 100%

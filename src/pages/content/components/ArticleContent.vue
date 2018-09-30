@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <el-row>
+      <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
         <div class="content-image">
-          <h1 class="content-title">{{content.title}}</h1>
           <img :src=content.image>
         </div>
         <div class="editor-info">
@@ -12,8 +12,8 @@
             <p style="margin: 2px">{{username}}</p>
             <p>{{timeFormat(content.update_time)}}</p>
           </div>
-          <div style="margin-right:20px;margin-top: 20px;float: right">
-            <a href="#">评论数: {{content.comment_nums}}</a>&nbsp;<a href="#">点赞数: {{content.like_nums}} </a>&nbsp;<a href="#">阅读数: {{content.view_nums}} </a>
+          <div style="margin-right:16px;margin-top: 25px;float: right;font-size: smaller">
+            <a href="#" >评论数: {{content.comment_nums}}</a>&nbsp;<a href="#">点赞数: {{content.like_nums}} </a>&nbsp;<a href="#">阅读数: {{content.view_nums}} </a>
           </div>
         </div>
         <div class="content-info">
@@ -25,9 +25,6 @@
           <el-button v-if="content.is_like" @click="deleteLike(like_type='article',id=content.is_like)" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
           <el-button v-else @click="addLike(like_type='article',like_id=content)" style="color: red" circle icon="iconfont icon-praise"></el-button>
           <el-button style="float: right" round>更多分享</el-button>
-          <el-tooltip style="float: right"  effect="dark" content="分享到微博" placement="top-start">
-            <el-button style="color: rgb(234, 93, 92)" icon="iconfont icon-weibo1" circle></el-button>
-          </el-tooltip>
           <el-tooltip style="float: right"  effect="dark" content="分享到微信" placement="top-start">
             <el-button style="color: rgb(80, 182, 116)" icon="iconfont icon-weixin1" circle></el-button>
           </el-tooltip>
@@ -166,7 +163,7 @@ export default {
   },
   methods: {
     timeFormat (time) {
-      return moment(time).format('YYYY-MM-DD, H:m:s')
+      return moment(time).format('YYYY-MM-DD')
     },
     deleteLike (like_type,id) {
       deleteLike(id)
@@ -363,20 +360,12 @@ export default {
 
 <style lang="stylus" scoped>
   .el-col
-    margin-top 100px
     background-color rgba(255,255,255,1)
     .content-image
       width 100%
-      height 300px
       overflow hidden
       img
         width 100%
-      .content-title
-        position absolute
-        color white
-        font-size 40px
-        margin-left 20px
-        top 280px
     .editor-info
       padding-top 20px
       width 100%

@@ -19,7 +19,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: url(assets/img/bg1.png)
+    background-image: url(assets/img/bg.png)
     background-size: cover;
     background-attachment: fixed
     width: 100%;
