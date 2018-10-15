@@ -2,19 +2,19 @@
   <div class="article">
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="article-image">
           <img src="@/assets/img/article-img.png">
           <h1 class="article-title">文章列表页</h1>
         </div>
         <div class="article-item" v-for="item of articles" :key="item.id">
           <div class="article-image">
-            <img :src="item.image">
+            <img :src="item.image || item.image_url">
             <div class="article-title">{{item.title}}</div>
           </div>
           <div class="article-content">
             <div style="padding-top: 20px; padding-left: 16px; color: #757575!important; display: flex;justify-content: left">
-              <div style="width: 80%"><p class="line-limit-length">{{item.content}}</p></div>
+              <div style="width: 80%"><p class="line-limit-length">{{item.profile}}</p></div>
               <router-link :to="/content/+item.id">阅读全文</router-link>
             </div>
             <hr style="margin: 16px">
@@ -31,51 +31,94 @@
           </div>
         </div>
       </el-col>
-      <el-col style="margin-top: 20px; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-              :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
-        <router-link tag="div" to="/article" >
-          <div class="article-item article-back" style="float: left">
-            <el-button icon="el-icon-arrow-left" circle></el-button>
-            <span> Article</span>
-          </div>
-        </router-link>
-        <router-link tag="div" to="/message" >
-          <div class="article-item article-next" style="float: right">
-            <span>Message </span>
-            <el-button icon="el-icon-arrow-right" circle></el-button>
-          </div>
-        </router-link>
+      <el-col style="margin-top: 20px; background-color: rgba(222,146,181,0)" :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
+        <div v-if="prevPage" class="article-item article-back" style="float: left;background-color: rgba(255,255,255,0);box-shadow: 0 0 0 0">
+          <el-button icon="el-icon-arrow-left" circle @click="toPrev"></el-button>
+          <span> Prev</span>
+        </div>
+        <div v-if="nextPage" class="article-item article-next" style="float: right;background-color: rgba(255,255,255,0);box-shadow: 0 0 0 0">
+          <span>Next </span>
+          <el-button icon="el-icon-arrow-right" circle @click="toNext"></el-button>
+        </div>
       </el-col>
     </el-row>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 
 <script>
 /* eslint-disable no-console */
-import {getNewArticle} from "../../../api/index"
+import {getArticle} from "../../../api/index"
 import moment from 'moment'
+import axios from 'axios'
 
 export default {
   name: 'Article',
   data () {
     return {
       articles: [],
+      nextPage: '',
+      prevPage: '',
+    }
+  },
+  computed: {
+    articleType() {
+      return this.$store.state.articleType
     }
   },
   methods: {
+    toPrev () {
+      axios.get(this.prevPage)
+        .then((response) => {
+          console.log(response)
+          this.articles = response.data.results
+          this.nextPage = response.data.next
+          this.prevPage = response.data.previous
+        }).catch((error) => {
+        console.log(error)
+      })
+    },
+    toNext () {
+      axios.get(this.nextPage)
+        .then((response) => {
+          console.log(response)
+          this.articles = response.data.results
+          this.nextPage = response.data.next
+          this.prevPage = response.data.previous
+        }).catch((error) => {
+          console.log(error)
+      })
+    },
     timeFormat (time) {
       return moment(time).format('YYYY-MM-DD')
     },
     getAllArticle () {
-      getNewArticle ()
+      getArticle ()
         .then((response)=> {
           console.log(response)
-          this.articles = response.data
+          this.articles = response.data.results
+          this.nextPage = response.data.next
         })
         .catch(function (error) {
           console.log(error)
         })
     },
+  },
+  watch: {
+    articleType: function () {
+      let articleType=this.$store.state.articleType
+      getArticle(articleType)
+        .then((response) => {
+          console.log(response)
+          this.articles = response.data.results
+          this.nextPage = response.data.next
+        }).catch((error) => {
+          console.log(error)
+      })
+    }
+  },
+  updated () {
+    window.scroll(0,0)
   },
   created(){
     this.getAllArticle();
@@ -109,9 +152,13 @@ export default {
     margin-bottom 20px
     background-color rgba(41,41,41,0.6)
   .el-col
-    background-color rgba(255,255,255,0.5)
+    background-color rgba(255,255,255,0)
     .article-item
       margin-top 40px
+      border-radius: 0;
+      border: 0 solid;
+      background: #0D395F
+      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.75);
       .article-image
         position relative
         background-color white

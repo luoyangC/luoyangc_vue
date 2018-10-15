@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.7",
+    "live2d4vue": "^0.1.0",
     "mavon-editor": "^2.6.17",
     "moment": "^2.22.2",
     "stylus": "^0.54.5",

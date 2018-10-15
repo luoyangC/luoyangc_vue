@@ -2,7 +2,7 @@
   <div class="about">
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="about-image">
           <img src="@/assets/img/about-img.png">
           <h1 class="about-title">关于</h1>
@@ -18,6 +18,7 @@
           <el-card>
             <h2>『关于我』 About me</h2>
             <ul>
+              <li>我叫骆杨，家住重庆，南京上学</li>
               <li>2019年毕业于南京信息工程大学滨江学院计算机系网络工程专业</li>
               <li>虽然所学为网络工程专业，但个人爱好更偏向于编程和Web方向，喜欢专研技术</li>
               <li>使用最熟练的编程语言是Python，熟悉Python Web主流框架，包括Flask、Django</li>
@@ -26,6 +27,7 @@
               <li>对于服务器部署方面也有一定的了解，熟悉Linux常用命令，熟悉Docker、Nginx等服务器软件</li>
               <li>对于新兴技术有着强烈的学习兴趣，如大数据、区块链、机器学习、人工智能等都有广泛关注</li>
               <li>未来发展目标是成为一名全栈工程师</li>
+              <li>目前积极寻找实习机会</li>
             </ul>
           </el-card>
         </div>
@@ -55,8 +57,8 @@
           </el-card>
         </div>
       </el-col>
-      <el-col style="margin-top: 0; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-              :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col style="margin-top: 0; background-color: rgba(222,146,181,0)"
+              :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/archives" >
           <div class="about-item about-back">
             <el-button icon="el-icon-arrow-left" circle></el-button>
@@ -65,6 +67,7 @@
         </router-link>
       </el-col>
     </el-row>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 

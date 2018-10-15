@@ -2,6 +2,14 @@
 // export const nav = state => {
 // 	return state.userInfo.nav;
 // }
-export const userInfo = state => {
-	return state.userInfo;
+export const userInfo = (state) => {
+	return state.userInfo
+}
+
+export const articleType = (state) => {
+  return state.articleType
+}
+
+export const contentOffset = (state) => {
+  return state.contentOffset
 }

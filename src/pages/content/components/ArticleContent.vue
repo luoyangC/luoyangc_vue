@@ -2,28 +2,43 @@
   <div class="content">
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="content-image">
-          <img :src=content.image>
+          <img :src="articleInfo.image || articleInfo.image_url">
         </div>
         <div class="editor-info">
-          <img src="@/assets/img.jpeg" class="user-img" style="float: left"/>
-          <div style="margin-left: 10px; float: left; font-size: 12px;">
-            <p style="margin: 2px">{{username}}</p>
-            <p>{{timeFormat(content.update_time)}}</p>
+          <img :src=userInfo.image class="user-img" style="float: left;margin-top: 6px" @click="toUserInfo(userInfo.id)"/>
+          <div style="margin-left: 10px;margin-top: 6px; float: left; font-size: 12px;">
+            <p style="margin: 2px" @click="toUserInfo(userInfo.id)">{{userInfo.username}}</p>
+            <p style="margin-bottom: 0">{{timeFormat(articleInfo.update_time)}}</p>
           </div>
-          <div style="margin-right:16px;margin-top: 25px;float: right;font-size: smaller">
-            <a href="#" >评论数: {{content.comment_nums}}</a>&nbsp;<a href="#">点赞数: {{content.like_nums}} </a>&nbsp;<a href="#">阅读数: {{content.view_nums}} </a>
+          <div style="margin-right:16px;margin-top: 0;float: right;font-size: smaller">
+            <p v-if="articleInfo.is_author" style="margin: 8px 0; text-align: right"><router-link :to="/editor/+articleInfo.id">编辑</router-link></p>
+            <p v-else style="margin: 8px 0; text-align: right"><a>&nbsp;</a></p>
+            <a href="#" >评论数: {{articleInfo.comment_nums}}</a>&nbsp;<a href="#">点赞数: {{articleInfo.like_nums}} </a>&nbsp;<a href="#">阅读数: {{articleInfo.view_nums}} </a>
           </div>
+        </div>
+        <div class="article-tags">
+          <el-tag v-for="tag in articleTags" :key="tag">
+            <a @click="changeArticleType('tag', tag)">{{tag}}</a>
+          </el-tag>
         </div>
         <div class="content-info">
-          <vue-markdown v-highlight :source=content.content></vue-markdown><hr>
+          <mavon-editor
+            :toolbars="toolbars"
+            :subfield=false
+            :editable=false
+            :boxShadow=true
+            defaultOpen="preview"
+            v-model="content"
+            style="z-index: 101">
+          </mavon-editor>
         </div>
         <div class="content-operation">
-          <el-button v-if="content.is_fav" @click="deleteFav" style="color: red" round icon="iconfont icon-like_fill">取消 | {{content.fav_nums}}</el-button>
-          <el-button v-else @click="addFav" style="color: red" round icon="iconfont icon-like">收藏 | {{content.fav_nums}}</el-button>
-          <el-button v-if="content.is_like" @click="deleteLike(like_type='article',id=content.is_like)" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
-          <el-button v-else @click="addLike(like_type='article',like_id=content)" style="color: red" circle icon="iconfont icon-praise"></el-button>
+          <el-button v-if="articleInfo.is_fav" @click="deleteFav" style="color: red" round icon="iconfont icon-like_fill">取消 | {{articleInfo.fav_nums}}</el-button>
+          <el-button v-else @click="addFav" style="color: red" round icon="iconfont icon-like">收藏 | {{articleInfo.fav_nums}}</el-button>
+          <el-button v-if="articleInfo.is_like" @click="deleteLike(like_type='article',id=articleInfo.is_like)" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
+          <el-button v-else @click="addLike(like_type='article',like_id=articleInfo)" style="color: red" circle icon="iconfont icon-praise"></el-button>
           <el-button style="float: right" round>更多分享</el-button>
           <el-tooltip style="float: right"  effect="dark" content="分享到微信" placement="top-start">
             <el-button style="color: rgb(80, 182, 116)" icon="iconfont icon-weixin1" circle></el-button>
@@ -46,10 +61,10 @@
           <el-card>
             <div class="commenter-info">
               <div style="float: left">
-                <img :src="item.user.image" class="user-img"/>
+                <img :src="item.user.image" class="user-img" @click="toUserInfo(item.user.id)"/>
               </div>
               <div style="float: left; margin-left: 20px">
-                <p class="line-limit-length">{{item.user.username}} </p>
+                <p class="line-limit-length" @click="toUserInfo(item.user.id)">{{item.user.username}} </p>
                 <p class="line-limit-length">{{timeFormat(item.create_time)}}</p>
               </div>
               <div style="float: right;">
@@ -71,9 +86,12 @@
                   </div>
                   <div class="reply-list" v-for="reply of item.replys" :key="reply.id">
                     <div class="commenter-info">
-                      <div style="float: left"><img :src="reply.from_user.image" class="user-img"/></div>
+                      <div style="float: left"><img :src="reply.from_user.image" class="user-img" @click="toUserInfo(reply.from_user.id)"/></div>
                       <div style="float: left; margin-left: 20px">
-                        <p class="line-limit-length">{{reply.from_user.username}} 回复 <a href="#">{{reply.to_user.username}} </a></p>
+                        <p class="line-limit-length">
+                          <a @click="toUserInfo(reply.from_user.id)">{{reply.from_user.username}}</a>&nbsp;回复&nbsp;
+                          <a href="#" @click="toUserInfo(reply.to_user.id)">{{reply.to_user.username}} </a>
+                        </p>
                         <p class="line-limit-length">{{timeFormat(reply.create_time)}}</p>
                       </div>
                       <div style="float: right;">
@@ -119,22 +137,21 @@
           </el-card>
         </div>
       </el-col>
-      <el-col style="margin-top: 40px; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-              :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
-        <router-link tag="div" to="/article" >
-          <div class="content-item content-back" style="float: left">
-            <el-button icon="el-icon-arrow-left" circle></el-button>
-            <span> Article</span>
-          </div>
-        </router-link>
-        <router-link tag="div" to="/cross" >
+      <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
+              :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
+        <div class="content-item content-back" style="float: left">
+          <el-button icon="el-icon-arrow-left" circle @click="toBack"></el-button>
+          <span> Back</span>
+        </div>
+        <router-link tag="div" to="/index" >
           <div class="content-item content-next" style="float: right">
-            <span>Cross </span>
+            <span>Index </span>
             <el-button icon="el-icon-arrow-right" circle></el-button>
           </div>
         </router-link>
       </el-col>
     </el-row>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 
@@ -151,17 +168,30 @@ export default {
   },
   data () {
     return {
+      articleTags: [],
       isLogin: this.$store.state.userInfo.name,
       activeName: '1',
       commentList: [],
+      articleInfo: '',
       content: '',
-      username: '',
+      userInfo: '',
       commentInfo: '',
       replyInfo: '',
       to_user_id: 0,
+      toolbars:{readmodel: true, navigation: true}
     }
   },
   methods: {
+    changeArticleType (t,n) {
+      this.$store.commit('SET_TYPE', {tag: n})
+      this.$router.push('/article')
+    },
+    toBack () {
+      this.$router.go(-1)
+    },
+    toUserInfo (id) {
+      this.$router.push('/userInfo/'+id)
+    },
     timeFormat (time) {
       return moment(time).format('YYYY-MM-DD')
     },
@@ -171,8 +201,8 @@ export default {
           console.log(response)
           // 判断类型
           if (like_type == 'article') {
-            this.content.is_like = false
-            this.content.like_nums --
+            this.articleInfo.is_like = false
+            this.articleInfo.like_nums --
           }
           if (like_type == 'comment') {
             this.commentList.forEach((item)=>{
@@ -202,8 +232,8 @@ export default {
           console.log(response)
           // 判断类型
           if (like_type == 'article') {
-            this.content.is_like = response.data.id
-            this.content.like_nums ++
+            this.articleInfo.is_like = response.data.id
+            this.articleInfo.like_nums ++
           }
           if (like_type == 'comment') {
             this.commentList.forEach((item)=>{
@@ -228,21 +258,21 @@ export default {
       })
     },
     deleteFav () {
-      deleteFavArticle (this.content.is_fav)
+      deleteFavArticle (this.articleInfo.is_fav)
         .then((response) => {
           console.log(response)
-          this.content.is_fav = 0
-          this.content.fav_nums --
+          this.articleInfo.is_fav = 0
+          this.articleInfo.fav_nums --
         }).catch((error) => {
           console.log(error)
       })
     },
     addFav () {
-      addFavArticle ({article:this.content.id})
+      addFavArticle ({article:this.articleInfo.id})
         .then((response) => {
           console.log(response)
-          this.content.is_fav = response.data.id
-          this.content.fav_nums ++
+          this.articleInfo.is_fav = response.data.id
+          this.articleInfo.fav_nums ++
         }).catch((error) => {
           console.log(error)
       })
@@ -256,9 +286,9 @@ export default {
         deleteComment (comment.id)
           .then((response) => {
             console.log(response)
-            this.content.comment_nums --
+            this.articleInfo.comment_nums --
             for (let i = 0; i <comment.replys.length; i++) {
-              this.content.comment_nums --
+              this.articleInfo.comment_nums --
             }
             this.getComment()
           }).catch((error) => {
@@ -284,7 +314,7 @@ export default {
         deleteReply ((reply_id))
           .then((response) => {
             console.log(response)
-            this.content.comment_nums --
+            this.articleInfo.comment_nums --
             this.getComment()
           }).catch((error) => {
             console.log(error)
@@ -306,8 +336,10 @@ export default {
     getArticle () {
       getArticleContent(this.$route.params.id)
         .then((response)=> {
-          this.content = response.data
-          this.username = response.data.user.username
+          this.articleInfo = response.data
+          this.content = response.data.content
+          this.userInfo = response.data.user
+          this.articleTags = response.data.tags.split(',')
           console.log(response)
 
         }).catch(function (error) {
@@ -324,10 +356,10 @@ export default {
       });
     },
     addComment () {
-      addComment ({article:this.content.id,content:this.commentInfo})
+      addComment ({article:this.articleInfo.id,content:this.commentInfo})
         .then((response)=> {
           console.log(response)
-          this.content.comment_nums ++
+          this.articleInfo.comment_nums ++
           this.getComment()
           this.commentInfo = ''
         }).catch((error) => {
@@ -341,7 +373,7 @@ export default {
         addReply({comment: comment, content: this.replyInfo, to_user_id: this.to_user_id})
           .then((response) => {
             console.log(response)
-            this.content.comment_nums ++
+            this.articleInfo.comment_nums ++
             this.getComment()
             this.replyInfo = ''
             this.to_user_id = 0
@@ -354,6 +386,9 @@ export default {
   activated () {
     this.getArticle()
     this.getComment()
+  },
+  deactivated () {
+    this.articleTags = []
   }
 }
 </script>
@@ -376,8 +411,13 @@ export default {
         height 44px
         border-radius 30px
         margin-left 16px
+    .article-tags
+      text-align left
+      .el-tag
+        margin-top 20px
+        margin-left 16px
     .content-info
-      padding 20px
+      padding 20px 0
       background-color white
       text-align left
       font-size 20px

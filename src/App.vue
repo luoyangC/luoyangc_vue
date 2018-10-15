@@ -7,6 +7,19 @@
 <script>
 export default {
   name: 'app',
+  methods: {
+    open() {
+      this.$message({
+        showClose: true,
+        message:'多图预警，手机端请在无线环境下浏览，要是流量够用，可以忽略此消息=￣ω￣=',
+        type: 'warning',
+        duration: 10000
+      });
+    },
+  },
+  created () {
+    this.open()
+  }
 }
 </script>
 

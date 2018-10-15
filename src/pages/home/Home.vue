@@ -36,16 +36,18 @@ export default {
   },
   data () {
     return {
-      display: 'flex'
+      display: 'none',
     }
   },
   methods: {
     handleClick () {
       if (this.display == 'none') {
         this.display = 'flex'
+        this.$store.commit('SET_OFFS', 7)
       }
       else {
         this.display = 'none'
+        this.$store.commit('SET_OFFS', 6)
       }
     }
   }

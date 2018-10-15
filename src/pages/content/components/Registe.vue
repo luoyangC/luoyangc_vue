@@ -2,9 +2,9 @@
   <div class="registe">
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="registe-image">
-          <img src="@/assets/img/about-img.png">
+          <img src="@/assets/img/register-img.png">
           <h1 class="registe-title">注册</h1>
         </div>
         <div class="registe-from">
@@ -24,7 +24,7 @@
               <el-input type="password" prefix-icon="iconfont icon-iconfontmima" placeholder="密码" v-model="password"></el-input>
             </div><br>
             <div>
-              <el-button @click="register">立即注册</el-button>
+              <el-button @click="register">注册</el-button>
             </div>
             <div>
               <p>点击 “注册” 即表示您同意并愿意遵守以下协议</p>
@@ -33,9 +33,9 @@
             <br><hr>
             <div>
               <p>----第三方登录----</p>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin"></i>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq"></i>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin" @click="openWarning"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq" @click="openWarning"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo" @click="openWarning"></i>
             </div>
           </el-card>
           <el-card class="hidden-md-and-up" style="width: 90%;justify-content: center">
@@ -54,7 +54,7 @@
               <el-input type="password" prefix-icon="iconfont icon-iconfontmima" placeholder="密码" v-model="password"></el-input>
             </div><br>
             <div>
-              <el-button @click="register">立即注册</el-button>
+              <el-button @click="register">注册</el-button>
             </div>
             <div>
               <p>点击 “注册” 即表示您同意并愿意遵守以下协议</p>
@@ -63,16 +63,16 @@
             <br><hr>
             <div>
               <p>----第三方登录----</p>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin"></i>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq"></i>
-              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weixin" @click="openWarning"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-social-qq" @click="openWarning"></i>
+              <i style="font-size: 30px; margin: 10px" class="iconfont icon-weibo" @click="openWarning"></i>
             </div>
           </el-card>
         </div>
       </el-col>
     </el-row>
-    <el-col style="margin-top: 40px; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-            :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+    <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
+            :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
       <router-link tag="div" to="/article" >
         <div class="registe-item registe-back" style="float: left">
           <el-button icon="el-icon-arrow-left" circle></el-button>
@@ -84,9 +84,9 @@
 </template>
 
 <script>
-  /* eslint-disable no-console */
+/* eslint-disable no-console */
 
-  import {getEmailCode, register} from "../../../api/index"
+import {getEmailCode, register} from "../../../api/index"
 
 export default {
   name: 'registe',
@@ -99,6 +99,12 @@ export default {
     }
   },
   methods: {
+    openWarning () {
+      this.$message({
+        message: '开发中',
+        type: 'warning'
+      });
+    },
     getRegisteCode () {
       getEmailCode ({email:this.email,send_type:'register'})
         .then((response) => {
@@ -128,6 +134,7 @@ export default {
     .registe-image
       width 100%
       overflow hidden
+      background-color white
       img
         width 100%
       .registe-title
@@ -142,7 +149,6 @@ export default {
   .registe
     margin: auto
     width: 100%
-    height: 1000px
     .registe-from
       width 100%
       height 600px

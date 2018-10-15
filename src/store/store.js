@@ -17,8 +17,19 @@ const userInfo = {
   token:cookie.getCookie('token')||''
 };
 
+const articleType = {
+  search: '',
+  time: '',
+  category: '',
+  tag: '',
+}
+
+const contentOffset = 6
+
 const state = {
   userInfo,
+  articleType,
+  contentOffset,
 }
 
 export default new Vuex.Store({

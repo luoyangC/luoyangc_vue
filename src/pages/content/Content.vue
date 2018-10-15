@@ -38,9 +38,10 @@ export default {
     opacity: 0;
     -webkit-transform: translate(30px, 0);
     transform: translate(30px, 0);
-
   .slide-left-leave-active, .slide-right-enter
     opacity: 0;
     -webkit-transform: translate(-30px, 0);
     transform: translate(-30px, 0);
+  .content
+    min-height 800px
 </style>

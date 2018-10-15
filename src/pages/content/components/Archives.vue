@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="archives-image">
           <img src="@/assets/img/archives-img.png">
           <h1 class="archives-title">记录</h1>
@@ -20,18 +20,14 @@
           </el-card>
         </div>
         <div class="archives-item">
-          <el-card class="archives-item">
-            <p>2018年10月1日：</p>
-            <p>本站上线</p>
-          </el-card>
-          <el-card class="archives-item" v-for="item of archives" :key="item">
-            <p>2018年10月{{item}}日：</p>
-            <p>archives</p>
+          <el-card class="archives-item" v-for="item of archives" :key="item.id">
+            <p>{{timeFormat(item.create_time)}}</p>
+            <vue-markdown style="overflow: hidden;height: 100%">{{item.content}}</vue-markdown>
           </el-card>
         </div>
       </el-col>
-      <el-col style="margin-top: 20px; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-              :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col style="margin-top: 20px; background-color: rgba(222,146,181,0)"
+              :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/cross" >
         <div class="archives-item archives-back" style="float: left">
           <el-button icon="el-icon-arrow-left" circle></el-button>
@@ -46,13 +42,21 @@
         </router-link>
       </el-col>
     </el-row>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+  /* eslint-disable no-console */
+
+  import moment from 'moment'
+  import VueMarkdown from 'vue-markdown'
+  import {getDynamics} from "../../../api"
 export default {
   name: 'Archives',
+  components: {
+    VueMarkdown
+  },
   data () {
     return {
       archives: [1,2,3,4,5,6,7,8,9]
@@ -60,8 +64,20 @@ export default {
   },
   methods: {
     timeFormat (time) {
-      moment(time).format('YYYY-MM-DD')
+      return moment(time).format('YYYY年MM月DD日')
+    },
+    getDynamics () {
+      getDynamics()
+        .then((response) => {
+          console.log(response)
+          this.archives = response.data
+        }).catch((error) => {
+          console.log(error)
+      })
     }
+  },
+  created () {
+    this.getDynamics()
   }
 }
 </script>

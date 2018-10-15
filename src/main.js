@@ -6,6 +6,8 @@ import ElementUI from 'element-ui'
 
 // 全局路由
 import router from './router'
+
+import mavonEditor from 'mavon-editor'
 import hljs from 'highlight.js'
 
 //全局状态控制引入
@@ -15,6 +17,8 @@ import store from './store/store';
 import './axios/';
 import Axios from 'axios';
 Vue.prototype.$http = Axios
+
+import live2d4vue from 'live2d4vue'
 
 import 'highlight.js/styles/googlecode.css'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -31,7 +35,9 @@ Vue.directive('highlight', (el) => {
   })
 })
 
+Vue.use(mavonEditor)
 Vue.use(ElementUI)
+Vue.use(live2d4vue)
 
 new Vue({
   router,

@@ -9,11 +9,17 @@ Vue.prototype.$http = Axios
 
 
 export default {
-    [types.SET_INFO] (state) {
-        state.userInfo = {
-            name:cookie.getCookie('name'),
-            token:cookie.getCookie('token')
-        }
-        console.log(state.userInfo);
-    },
+  [types.SET_INFO] (state) {
+    state.userInfo = {
+      name:cookie.getCookie('name'),
+      token:cookie.getCookie('token')
+    }
+    console.log(state.userInfo);
+  },
+  [types.SET_TYPE] (state, payload) {
+    state.articleType = payload
+  },
+  [types.SET_OFFS] (state, offset) {
+    state.contentOffset = offset
+  }
 }

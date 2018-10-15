@@ -1,7 +1,7 @@
 <template>
   <div class="cross">
     <el-row>
-      <el-col :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div :style="{height:corssHeight}">
           <el-steps direction="vertical" :active="corss.length">
             <el-step v-for="(item,index) of articles" :key="item.id">
@@ -10,7 +10,8 @@
               </div>
               <div shadow="always" slot="description" :style="isLeft(index)" class="corss-item">
                 <el-card>
-                  <vue-markdown style="overflow: hidden;height: 100%">{{item.content}}</vue-markdown>
+                  <h3>{{item.title}}</h3>
+                  <p>{{item.profile}}</p>
                 </el-card>
                 <div class="nav" :style="isLeftNav(index)"></div>
               </div>
@@ -18,8 +19,8 @@
           </el-steps>
         </div>
       </el-col>
-      <el-col style="margin-top: 20px; margin-bottom: 100px; background-color: rgba(222,146,181,0)"
-              :lg="{span: 12, offset: 7}" :md="{span: 18, offset: 5}">
+      <el-col style="margin-top: 20px; background-color: rgba(222,146,181,0)"
+              :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/message" >
           <div class="archives-item archives-back" style="float: left">
             <el-button icon="el-icon-arrow-left" circle></el-button>
@@ -34,13 +35,14 @@
         </router-link>
       </el-col>
     </el-row>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 
 <script>
   /* eslint-disable no-console */
   import VueMarkdown from 'vue-markdown'
-  import {getNewArticle} from "../../../api"
+  import {getArticleProfile} from "../../../api"
   import moment from 'moment'
 
 export default {
@@ -73,7 +75,7 @@ export default {
       }
     },
     getAllArticle () {
-      getNewArticle ()
+      getArticleProfile ()
         .then((response)=> {
           console.log(response)
           this.articles = response.data
@@ -109,8 +111,9 @@ export default {
         top: 0
         bottom: 0
         left: 50% !important
+        background-color white
       .el-step__icon
-        width 80px !important
+        width 60px !important
         height 60px !important
         border-radius: 0;
         border: 0 solid;
@@ -134,7 +137,7 @@ export default {
           margin-top -60px
           .el-card
             order 1
-            width 40% !important
+            width 38% !important
             height: 200px
             overflow: hidden;
             background-color rgba(255,255,255,1)
@@ -163,7 +166,6 @@ export default {
 <style lang="stylus" scoped>
   .el-col
     margin-top 100px
-    margin-bottom 200px
     text-align center
     background-color rgba(255,255,255,0)
 </style>

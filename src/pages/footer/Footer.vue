@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">Footer</div>
+  <div class="footer">&nbsp;</div>
 </template>
 
 <script>
@@ -11,6 +11,6 @@ export default {
 <style lang="stylus" scoped>
   .footer
     margin-top 20px
-    line-height 60px
+    line-height 80px
     background-color #99c1da
 </style>
