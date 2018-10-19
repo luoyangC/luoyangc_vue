@@ -21,11 +21,11 @@
               <h3 style="margin-top: 0;padding-top: 16px">文章简介</h3>
               <el-input type="textarea" :rows="3" v-model="articleInfo.profile"></el-input>
             </div>
-            <div class="editor-item" style="display: flex; justify-content: start">
+            <div class="editor-item" style="display: flex; justify-content: start">h
               <div>
                 <h3>文章封面</h3>
                 <el-upload class="avatar-uploader"
-                           action="http://127.0.0.1:8000/api/upload/"
+                           action="http://47.98.207.4:8000/api/upload/"
                            :show-file-list="false"
                            :headers=header
                            :data="{upload_type:'article_img'}"
@@ -187,9 +187,15 @@ export default {
   activated () {
     this.getArticle()
     this.getCategory()
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
   },
   deactivated () {
     this.dynamicTags = []
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
   }
 }
 </script>
@@ -198,7 +204,6 @@ export default {
   .editor
     margin: auto
     width: 100%
-    height: 1000px
     .el-col
       background-color rgba(255,255,255,0.5)
       .editor-image

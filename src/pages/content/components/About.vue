@@ -9,7 +9,7 @@
         </div>
         <div class="about-item about-update-time">
           <el-card>
-            <p>本页最后更新时间为 2018 年 9 月 26 日 10 时 14 分 40 秒</p>
+            <p>本页最后更新时间为 2018 年 10 月 18 日 10 时 14 分 40 秒</p>
           </el-card>
         </div>
         <div class="about-item about-music">
@@ -18,7 +18,6 @@
           <el-card>
             <h2>『关于我』 About me</h2>
             <ul>
-              <li>我叫骆杨，家住重庆，南京上学</li>
               <li>2019年毕业于南京信息工程大学滨江学院计算机系网络工程专业</li>
               <li>虽然所学为网络工程专业，但个人爱好更偏向于编程和Web方向，喜欢专研技术</li>
               <li>使用最熟练的编程语言是Python，熟悉Python Web主流框架，包括Flask、Django</li>
@@ -35,11 +34,11 @@
           <el-card>
             <h2>『关于本站』 About this</h2>
             <ul>
-              <li>本站于2018年10月1日上线</li>
+              <li>本站于2018年10月18日上线</li>
               <li>本站域名注册和服务器托管均使用<a href="https://www.aliyun.com/"> 阿里云</a></li>
               <li>本站是一个前后端分离的项目，通过RESTful API进行数据交互</li>
-              <li>前端使用Vue.js构建，后端使用Python的Django构建</li>
-              <li>整个项目通过Docker打包，所有源代码都以同步到我的 <a href="https://github.com/luoyangC">Github</a></li>
+              <li>前端使用Vue.js构建，后端使用Python的Django构建，数据库使用Mysql，缓存使用Redis，服务器使用Nginx</li>
+              <li>并且整个项目通过Docker打包上线，所有源代码都以同步到我的 <a href="https://github.com/luoyangC">Github</a></li>
             </ul>
           </el-card>
         </div>
@@ -73,7 +72,17 @@
 
 <script>
 export default {
-  name: 'About'
+  name: 'About',
+  activated () {
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
+  },
+  deactivated () {
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
+  }
 }
 </script>
 

@@ -26,10 +26,13 @@ const articleType = {
 
 const contentOffset = 6
 
+const scrollTop = 0
+
 const state = {
   userInfo,
   articleType,
   contentOffset,
+  scrollTop,
 }
 
 export default new Vuex.Store({

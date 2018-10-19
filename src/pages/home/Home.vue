@@ -2,7 +2,7 @@
   <div class="home">
     <el-container>
       <el-header>
-        <home-header @change="handleClick"></home-header>
+        <home-header @change="handleClick" v-show="showAbs" :style="opacityStyle"></home-header>
       </el-header>
       <el-container>
         <el-aside width="200px" class="hidden-sm-and-down">
@@ -22,7 +22,9 @@
 </template>
 
 <script>
-import HomeHeader from '../header/Header'
+  /* eslint-disable no-console */
+
+  import HomeHeader from '../header/Header'
 import HomeAside from '../aside/Aside'
 import HomeContent from '../content/Content'
 import HomeFooter from '../footer/Footer'
@@ -36,6 +38,10 @@ export default {
   },
   data () {
     return {
+      opacityStyle: {
+        opacity: 1
+      },
+      showAbs: true,
       display: 'none',
     }
   },
@@ -50,7 +56,7 @@ export default {
         this.$store.commit('SET_OFFS', 6)
       }
     }
-  }
+  },
 }
 </script>
 

@@ -35,11 +35,11 @@
           </mavon-editor>
         </div>
         <div class="content-operation">
-          <el-button v-if="articleInfo.is_fav" @click="deleteFav" style="color: red" round icon="iconfont icon-like_fill">取消 | {{articleInfo.fav_nums}}</el-button>
+          <el-button v-if="articleInfo.is_fav" @click="deleteFav" style="color: red;padding: 12px" round icon="iconfont icon-like_fill">取消 | {{articleInfo.fav_nums}}</el-button>
           <el-button v-else @click="addFav" style="color: red" round icon="iconfont icon-like">收藏 | {{articleInfo.fav_nums}}</el-button>
           <el-button v-if="articleInfo.is_like" @click="deleteLike(like_type='article',id=articleInfo.is_like)" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
           <el-button v-else @click="addLike(like_type='article',like_id=articleInfo)" style="color: red" circle icon="iconfont icon-praise"></el-button>
-          <el-button style="float: right" round>更多分享</el-button>
+          <el-button style="float: right;padding: 12px" round>更多分享</el-button>
           <el-tooltip style="float: right"  effect="dark" content="分享到微信" placement="top-start">
             <el-button style="color: rgb(80, 182, 116)" icon="iconfont icon-weixin1" circle></el-button>
           </el-tooltip>
@@ -386,10 +386,16 @@ export default {
   activated () {
     this.getArticle()
     this.getComment()
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
   },
   deactivated () {
     this.articleTags = []
-  }
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
+  },
 }
 </script>
 
@@ -422,11 +428,11 @@ export default {
       text-align left
       font-size 20px
     .content-operation
-      padding 0 20px
+      padding 0 16px
       height 60px
       text-align left
     .content-input
-      padding 0 20px
+      padding 0 16px
       margin-bottom 20px
       height 80px
       text-align left

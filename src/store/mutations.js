@@ -21,5 +21,8 @@ export default {
   },
   [types.SET_OFFS] (state, offset) {
     state.contentOffset = offset
+  },
+  [types.SET_STOP] (state, top) {
+    state.scrollTop = top
   }
 }

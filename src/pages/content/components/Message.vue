@@ -114,6 +114,16 @@ export default {
   },
   created () {
     this.getMessage()
+  },
+  activated () {
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
+  },
+  deactivated () {
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
   }
 }
 </script>

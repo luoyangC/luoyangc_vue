@@ -1,10 +1,12 @@
 module.exports = {
 
   // baseUrl  type:{string} default:'/'
-  baseUrl: process.env.NODE_ENV === 'production' ? '/online/' : '/',
+  baseUrl: '/',
 
   // outputDir: 在npm run build时 生成文件的目录 type:string, default:'dist'
   outputDir: 'dist',
+
+  assetsDir: 'static',
 
   // lintOnSave：{ type:Boolean default:true } 是否使用eslint
   lintOnSave: true,

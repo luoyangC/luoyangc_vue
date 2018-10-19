@@ -7,3 +7,4 @@ function makeAction (type) {
 export const setInfo = makeAction(types.SET_INFO)
 export const setType = makeAction(types.SET_TYPE)
 export const setOffs = makeAction(types.SET_OFFS)
+export const setStop = makeAction(types.SET_STOP)

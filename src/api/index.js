@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 
-// let host = 'http://47.98.207.4:8080'
-let local_host = 'http://127.0.0.1:8000/api'
+let local_host = 'http://47.98.207.4:8000/api'
+// let local_host = 'http://127.0.0.1:8000/api'
 
 // 获取文章列表
 export const getArticle = (params) => { return axios.get(`${local_host}/article/`, {params:params}) }

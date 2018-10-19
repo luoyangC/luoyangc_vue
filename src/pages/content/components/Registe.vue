@@ -109,7 +109,7 @@ export default {
       getEmailCode ({email:this.email,send_type:'register'})
         .then((response) => {
           console.log(response)
-          alert('邮件发送成功，验证码的过期时间是5分钟，请注意查收')
+          alert('邮件发送成功，验证码的过期时间是5分钟，请注意查收，如果在您的收件箱中没有发现验证邮件，请注意查看垃圾邮箱')
         })
         .catch((error) => {
           console.log(error)
@@ -124,6 +124,16 @@ export default {
           console.log(error)
         })
     }
+  },
+  activated () {
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
+  },
+  deactivated () {
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
   }
 }
 </script>

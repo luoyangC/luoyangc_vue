@@ -9,7 +9,9 @@
 </template>
 
 <script>
-export default {
+  /* eslint-disable no-console */
+
+  export default {
   name: 'Content',
   data () {
     return {
@@ -25,7 +27,7 @@ export default {
         this.transitionName = 'slide-right';
       }
     }
-  }
+  },
 }
 </script>
 

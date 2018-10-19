@@ -26,15 +26,15 @@
                   </el-card>
                   <el-card style="background-color: #f5f5f5; border-top: 0">
                     <div class="user-info">
-                      <div style="margin-top: 10px">Amor</div>
-                      <div>
-                        <el-input placeholder="请输入内容" prefix-icon="el-icon-search"
+                      <div style="margin-top: 10px;flex: none">Amor</div>
+                      <div style="flex: auto">
+                        <el-input style="width: 100%" placeholder="请输入内容" prefix-icon="el-icon-search"
                                   v-model="searchInput"
                                   @keyup.enter.native="changeArticleType('search', searchInput)">
                         </el-input>
                       </div>
-                      <div style="margin-top: 10px">
-                        <el-dropdown  trigger="click" style="margin-right: 20px">
+                      <div style="margin-top: 10px;flex: none">
+                        <el-dropdown  trigger="click" style="margin-right: 10px">
                           <span class="el-dropdown-link"><i class="iconfont icon-daliebiao"></i></span>
                           <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>
@@ -125,7 +125,7 @@ export default {
       })
     },
     getArticle () {
-      getArticle ()
+      getArticle ({is_banner:2})
         .then((response) => {
           this.articles = response.data.results
         }).catch((error) => {
@@ -136,6 +136,16 @@ export default {
   created () {
     this.getArticle()
     this.getTags()
+  },
+  activated () {
+    window.addEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
+    })
+  },
+  deactivated () {
+    window.removeEventListener('scroll', () => {
+      this.$store.commit('SET_STOP', 0)
+    })
   }
 }
 </script>
@@ -153,7 +163,7 @@ export default {
           .user-info
             display flex
             flex-direction row
-            justify-content space-between
+            justify-content space-around
         .index-tags
           text-align left
           .el-tag

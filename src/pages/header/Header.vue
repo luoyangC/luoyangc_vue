@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" v-show="showAbs">
     <div class="my-aside" :class="{active: isActive}">
       <div style="background-color: white">
         <div style="display: flex; justify-content: space-around;align-items: center">
@@ -142,6 +142,8 @@ export default {
   name: 'Head',
   data () {
     return {
+      showAbs: true,
+      opacityStyle: 1,
       categorys: [],
       archives: [],
       searchInput: '',
@@ -356,6 +358,23 @@ export default {
       })
     }
   },
+  computed: {
+    scrollTop() {
+      return this.$store.state.scrollTop
+    },
+  },
+  watch: {
+    scrollTop: function () {
+      let top = this.$store.state.scrollTop
+      console.log(top)
+      if (top > 200) {
+        this.showAbs = false
+      }
+      else {
+        this.showAbs = true
+      }
+    }
+  },
   created () {
     this.getUserInfo()
   }
@@ -368,7 +387,7 @@ export default {
     text-align center
   .header
     line-height 60px
-    background-color rgba(41,41,41,0.4)
+    background-color rgb(41,41,41)
   .iconfont
     font-family: "iconfont"
     font-size: 20px

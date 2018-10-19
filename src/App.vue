@@ -32,9 +32,10 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: url(assets/img/bg.png)
-    background-size: cover;
+    background-image: url(assets/img/bg.jpg)
+    background-size: auto,100%;
     background-attachment: fixed
+    background-repeat :no-repeat
     width: 100%;
     min-height: 100%;
   a

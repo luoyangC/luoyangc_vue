@@ -13,3 +13,7 @@ export const articleType = (state) => {
 export const contentOffset = (state) => {
   return state.contentOffset
 }
+
+export const scrollTop = (state) => {
+  return state.scrollTop
+}
