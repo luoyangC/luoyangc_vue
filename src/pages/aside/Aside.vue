@@ -2,6 +2,10 @@
   <div class="aside">
     <el-row>
       <el-col :lg="8" :offset="8">
+        <div style="height: 60px;display: flex;justify-content: space-between;align-items: center">
+          <a @click="goHome"><i class="iconfont">&#xe6ca;</i></a>
+          <a @click="headerClick"><i class="iconfont icon-caidan1"></i></a>
+        </div>
         <img src="@/assets/img.jpeg" class="img-full"/>
       </el-col>
       <el-col>
@@ -69,6 +73,12 @@ export default {
     }
   },
   methods: {
+    goHome () {
+      this.$router.push('/index')
+    },
+    headerClick () {
+      this.$emit('change')
+    },
     timeFormat (time) {
       return moment(time).format('MMM YYYY')
     },
@@ -126,7 +136,6 @@ export default {
     height 60px
     margin-top 20px
     margin-bottom 20px
-
   .aside
     height 1000px
     background-color rgba(255,255,255,0.41)

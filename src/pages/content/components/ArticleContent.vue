@@ -36,7 +36,7 @@
         </div>
         <div class="content-operation">
           <el-button v-if="articleInfo.is_fav" @click="deleteFav" style="color: red;padding: 12px" round icon="iconfont icon-like_fill">取消 | {{articleInfo.fav_nums}}</el-button>
-          <el-button v-else @click="addFav" style="color: red" round icon="iconfont icon-like">收藏 | {{articleInfo.fav_nums}}</el-button>
+          <el-button v-else @click="addFav" style="color: red;padding: 12px" round icon="iconfont icon-like">收藏 | {{articleInfo.fav_nums}}</el-button>
           <el-button v-if="articleInfo.is_like" @click="deleteLike(like_type='article',id=articleInfo.is_like)" style="color: red" circle icon="iconfont icon-praise_fill"></el-button>
           <el-button v-else @click="addLike(like_type='article',like_id=articleInfo)" style="color: red" circle icon="iconfont icon-praise"></el-button>
           <el-button style="float: right;padding: 12px" round>更多分享</el-button>
@@ -178,7 +178,8 @@ export default {
       commentInfo: '',
       replyInfo: '',
       to_user_id: 0,
-      toolbars:{readmodel: true, navigation: true}
+      toolbars:{readmodel: true, navigation: true},
+      beforeScrollTop: 0,
     }
   },
   methods: {
@@ -387,8 +388,16 @@ export default {
     this.getArticle()
     this.getComment()
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     this.articleTags = []
@@ -418,6 +427,8 @@ export default {
         border-radius 30px
         margin-left 16px
     .article-tags
+      display flex
+      justify-content flex-start
       text-align left
       .el-tag
         margin-top 20px

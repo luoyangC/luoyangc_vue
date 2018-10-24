@@ -1,5 +1,5 @@
 <template>
-  <div class="header" v-show="showAbs">
+  <div class="header">
     <div class="my-aside" :class="{active: isActive}">
       <div style="background-color: white">
         <div style="display: flex; justify-content: space-around;align-items: center">
@@ -142,7 +142,6 @@ export default {
   name: 'Head',
   data () {
     return {
-      showAbs: true,
       opacityStyle: 1,
       categorys: [],
       archives: [],
@@ -301,6 +300,7 @@ export default {
           console.log(this)
           //更新Store的数据
           this.$store.dispatch('setInfo');
+          this.$router.replace('/index')
           this.$router.go(0)
         })
         .catch(function (error) {
@@ -330,6 +330,7 @@ export default {
           message: '已注销!'
         });
         this.$store.dispatch('setInfo');
+        this.$router.replace('/index')
         this.$router.go(0)
       }).catch(() => {
         this.$message({
@@ -356,23 +357,6 @@ export default {
         }).catch((error) => {
         console.log(error)
       })
-    }
-  },
-  computed: {
-    scrollTop() {
-      return this.$store.state.scrollTop
-    },
-  },
-  watch: {
-    scrollTop: function () {
-      let top = this.$store.state.scrollTop
-      console.log(top)
-      if (top > 200) {
-        this.showAbs = false
-      }
-      else {
-        this.showAbs = true
-      }
     }
   },
   created () {

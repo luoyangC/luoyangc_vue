@@ -96,6 +96,7 @@ export default {
       email: '',
       code: '',
       password: '',
+      beforeScrollTop: 0,
     }
   },
   methods: {
@@ -109,7 +110,11 @@ export default {
       getEmailCode ({email:this.email,send_type:'register'})
         .then((response) => {
           console.log(response)
-          alert('邮件发送成功，验证码的过期时间是5分钟，请注意查收，如果在您的收件箱中没有发现验证邮件，请注意查看垃圾邮箱')
+          this.$message({
+            type: 'success',
+            message: '邮件发送成功，验证码的过期时间是5分钟，请注意查收，如果在您的收件箱中没有发现验证邮件，请注意查看垃圾邮箱!',
+            duration: 9000
+          });
         })
         .catch((error) => {
           console.log(error)
@@ -119,6 +124,10 @@ export default {
       register ({username:this.username, email:this.email, code:this.code, password:this.password})
         .then((response) => {
           console.log(response)
+          this.$message({
+            type: 'success',
+            message: '恭喜你注册成功，现在你可以点击右上角进行登录！'
+          });
         })
         .catch((error) => {
           console.log(error)
@@ -127,8 +136,16 @@ export default {
   },
   activated () {
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {

@@ -9,8 +9,8 @@
               <el-carousel-item v-for="item of articles" :key="item.id">
                 <div class="article-item">
                   <div class="article-image">
-                    <img :src="item.image || item.image_url">
-                    <div class="article-title"><router-link :to="/content/+item.id">{{item.title}}</router-link></div>
+                    <router-link :to="/content/+item.id"><img :src="item.image || item.image_url"></router-link>
+                    <div class="article-title"><router-link style="color: white" :to="/content/+item.id">{{item.title}}</router-link></div>
                   </div>
                 </div>
               </el-carousel-item>
@@ -18,17 +18,15 @@
           </div>
           <div style="margin-top: 40px">
             <el-row>
-              <el-col :xs="24" :sm="24" :md="16" :lg="16">
+              <el-col :xs="24" :sm="24" :md="12" :lg="14">
                 <div class="index-menu">
                   <el-card class="index-info" style="border-bottom: 0">
                     <p style="text-align: center; font-size: 20px">欢迎来到这个网站</p>
                     <img src="@/assets/img/index-img.png"/>
-                  </el-card>
-                  <el-card style="background-color: #f5f5f5; border-top: 0">
                     <div class="user-info">
                       <div style="margin-top: 10px;flex: none">Amor</div>
-                      <div style="flex: auto">
-                        <el-input style="width: 100%" placeholder="请输入内容" prefix-icon="el-icon-search"
+                      <div style="flex: auto; margin: 0 10px">
+                        <el-input placeholder="请输入内容" prefix-icon="el-icon-search"
                                   v-model="searchInput"
                                   @keyup.enter.native="changeArticleType('search', searchInput)">
                         </el-input>
@@ -55,19 +53,19 @@
                       </div>
                     </div>
                   </el-card>
+                  <!--<el-card class="index-new">-->
+                    <!--<p style="text-align: center; font-size: 20px;">最近发表</p>-->
+                  <!--</el-card>-->
                 </div>
               </el-col>
-              <el-col :xs="24" :sm="24" :md="{span:6,offset:2}" :lg="{span:6,offset:2}">
+              <el-col :xs="24" :sm="24" :md="{span:10,offset:2}" :lg="{span:8,offset:2}">
                 <div class="index-tags">
-                  <div class="hidden-sm-and-up" style="height: 40px;width: 100%">&nbsp;</div>
+                  <div class="hidden-md-and-up" style="height: 40px;width: 100%">&nbsp;</div>
                   <el-card>
                     <p style="text-align: center; font-size: 20px;">Tag云</p>
                     <el-tag v-for="(item,index) in tags" :key="index" :type="tagColors[index%5]" size="small">
                       <a @click="changeArticleType('tag', item.tag)">{{item.tag}}</a>
                     </el-tag>
-                  </el-card>
-                  <el-card style="margin-top: 40px">
-                    <p style="text-align: center; font-size: 20px">广告位招租</p>
                   </el-card>
                 </div>
               </el-col>
@@ -101,7 +99,8 @@ export default {
       tagColors: ['','success','info','warning','danger'],
       articles: [],
       tags: [],
-      searchInput: ''
+      searchInput: '',
+      i: 0,
     }
   },
   methods: {
@@ -139,8 +138,17 @@ export default {
   },
   activated () {
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.i;
+      console.log(this.i, scrollTop, scroll)
+      this.i = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {
@@ -162,8 +170,11 @@ export default {
             width 55%
           .user-info
             display flex
+            margin-top 20px
             flex-direction row
             justify-content space-around
+          .index-new
+            margin-top 40px
         .index-tags
           text-align left
           .el-tag
@@ -187,9 +198,9 @@ export default {
               bottom 0
               color white
               font-size 25px
-              margin-left 0
-              margin-bottom 4px
-              background-color rgba(41,41,41,0.6)
+              margin-left 10px
+              margin-bottom 10px
+              background-color rgba(41,41,41,0.5)
         .el-carousel__item:nth-child(2n)
           background-color: #99a9bf
         .el-carousel__item:nth-child(2n+1)

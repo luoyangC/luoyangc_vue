@@ -1,6 +1,7 @@
 var home_Path = document.location.protocol +'//' + window.document.location.hostname +'/';
 var message_Path = "http://localhost:8080/live2d/"
 var userAgent = window.navigator.userAgent.toLowerCase();
+var talkAPI = "http://localhost:8000/api/talk/"
 console.log(userAgent);
 var norunAI = [ "android", "iphone", "ipod", "ipad", "windows phone", "mqqbrowser" ,"msie","trident/7.0"];
 var norunFlag = false;
@@ -90,7 +91,7 @@ if(!norunFlag){
 							hitFlag = true;
 							setTimeout(function(){
 								hitFlag = false;
-							},8000);
+							},1000);
 							var text = tips.text;
 							if(Array.isArray(tips.text)) text = tips.text[Math.floor(Math.random() * tips.text.length + 1)-1];
 							text = text.renderTip({text: $(this).text()});

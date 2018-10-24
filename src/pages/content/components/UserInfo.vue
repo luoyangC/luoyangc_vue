@@ -79,10 +79,14 @@
     </el-row>
     <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
             :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
+      <div class="user-item user-back" style="float: left">
+        <el-button @click="goBack" icon="el-icon-arrow-left" circle></el-button>
+        <span> Back</span>
+      </div>
       <router-link tag="div" to="/article" >
-        <div class="user-item user-back" style="float: left">
-          <el-button icon="el-icon-arrow-left" circle></el-button>
-          <span> Article</span>
+        <div class="user-item user-back" style="float: right">
+          <span>Article </span>
+          <el-button icon="el-icon-arrow-right" circle></el-button>
         </div>
       </router-link>
     </el-col>
@@ -99,10 +103,14 @@ export default {
   name: 'UserInfo',
   data () {
     return {
-      user: ''
+      user: '',
+      beforeScrollTop: 0,
     }
   },
   methods: {
+    goBack () {
+      this.$router.go(-1)
+    },
     getUserInfoById () {
       getUserInfoById (this.$route.params.id)
         .then((response) => {
@@ -116,8 +124,16 @@ export default {
   activated () {
     this.getUserInfoById()
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {

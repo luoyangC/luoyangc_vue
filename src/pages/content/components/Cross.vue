@@ -10,7 +10,12 @@
               </div>
               <div shadow="always" slot="description" :style="isLeft(index)" class="corss-item">
                 <el-card>
-                  <h3>{{item.title}}</h3>
+                  <router-link :to="/content/+item.id"><h2>{{item.title}}</h2></router-link>
+                  <p style="text-align: right">tags：
+                    <a style="margin-left: 5px;color: #00a1d6"
+                       v-for="(tag,index) in item.tags.split(',')" :key="index"
+                       @click="changeArticleType('tag', tag)">{{tag}}</a>
+                  </p>
                   <p>{{item.profile}}</p>
                 </el-card>
                 <div class="nav" :style="isLeftNav(index)"></div>
@@ -51,7 +56,8 @@ export default {
   data () {
     return {
       corss: [1,2,3,4,5,6,7,8,9,10,11,12,13],
-      articles: []
+      articles: [],
+      beforeScrollTop: 0,
     }
   },
   computed: {
@@ -60,6 +66,10 @@ export default {
     },
   },
   methods: {
+    changeArticleType (t,n) {
+      this.$store.commit('SET_TYPE', {tag: n})
+      this.$router.push('/article')
+    },
     isLeft (i) {
       if (i % 2 === 0) {
         return {justifyContent: 'flex-end'}
@@ -93,8 +103,16 @@ export default {
   },
   activated () {
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {
@@ -109,9 +127,10 @@ export default {
     display: flex;
     flex-flow: column;
     justify-content: center
+    align-items center
     .el-step__head
       order 0
-      width: 100% !important
+      width: 100px !important
       flex-grow: 0 !important
       color: white
       border-color: white

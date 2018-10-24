@@ -59,7 +59,8 @@ export default {
   },
   data () {
     return {
-      archives: [1,2,3,4,5,6,7,8,9]
+      archives: [1,2,3,4,5,6,7,8,9],
+      beforeScrollTop: 0,
     }
   },
   methods: {
@@ -81,8 +82,16 @@ export default {
   },
   activated () {
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {

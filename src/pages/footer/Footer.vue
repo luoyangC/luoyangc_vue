@@ -1,7 +1,6 @@
 <template>
   <div style="display: flex;flex-direction: column;">
   <div style="position: absolute;align-self: flex-end; right: 50px" class="hidden-sm-and-down">
-    <el-button style="background-color: #D7B98E;color: white" @click="toTop" circle icon="el-icon-arrow-up"></el-button>
   </div>
   <div class="footer">
     <div class="footer-left">
@@ -37,22 +36,11 @@
 <script>
 export default {
   name: 'Footer',
-  data () {
+  data() {
     return {
       timer: null,
     }
-  },
-  methods: {
-    toTop () {
-      this.timer = setInterval (() => {
-        let top = this.$store.state.scrollTop
-        document.documentElement.scrollTop = top - 100
-        if (top <= 0) {
-          clearInterval(this.timer)
-        }
-      }, 40)
-    }
-  },
+  }
 }
 </script>
 

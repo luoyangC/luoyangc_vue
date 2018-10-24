@@ -110,6 +110,7 @@ export default {
       categorys: '',
       content: '',
       header: {'Authorization': `JWT ${store.state.userInfo.token}`},
+      beforeScrollTop: 0,
     }
   },
   methods: {
@@ -188,8 +189,16 @@ export default {
     this.getArticle()
     this.getCategory()
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     this.dynamicTags = []

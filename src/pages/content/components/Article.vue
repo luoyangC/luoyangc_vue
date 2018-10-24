@@ -3,13 +3,25 @@
     <el-row>
       <el-col class="hidden-sm-and-down" style="margin-top: 100px;background-color: rgba(255,217,242,0)"></el-col>
       <el-col :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
-        <div class="article-image">
+        <div class="articles-image">
           <img src="@/assets/img/article-img.png">
-          <h1 class="article-title">文章列表页</h1>
+          <div class="articles-title">
+            <div style="width: 100%;">
+              <h1 style="margin: 0;padding-left:6px; display: inline-block;float: left">文章列表页</h1>
+              <div style="float: right;font-size: 14px;color: #00a1d6; margin-top: 12px; padding-right: 6px">
+                <span style="color: black"><b>排序方式：</b></span>
+                <span v-if="orderLike"><a @click="getChangeArticle('like_nums')">热门<i class="el-icon-caret-bottom"></i></a></span>
+                <span v-else><a @click="getChangeArticle('-like_nums')">热门<i class="el-icon-caret-top"></i></a></span>
+                <span>&nbsp;</span>
+                <span v-if="orderTime"><a @click="getChangeArticle('update_time')">日期<i class="el-icon-caret-bottom"></i></a></span>
+                <span v-else><a @click="getChangeArticle('-update_time')">日期<i class="el-icon-caret-top"></i></a></span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="article-item" v-for="item of articles" :key="item.id">
           <div class="article-image">
-            <img :src="item.image || item.image_url">
+            <router-link :to="/content/+item.id"><img :src="item.image || item.image_url"></router-link>
             <div class="article-title">{{item.title}}</div>
           </div>
           <div class="article-content">
@@ -56,9 +68,12 @@ export default {
   name: 'Article',
   data () {
     return {
+      orderLike: false,
+      orderTime: true,
       articles: [],
       nextPage: '',
       prevPage: '',
+      beforeScrollTop: 0,
     }
   },
   computed: {
@@ -67,6 +82,30 @@ export default {
     }
   },
   methods: {
+    getChangeArticle (addChange) {
+      if (addChange == 'like_nums') {
+        this.orderLike = false
+      }
+      if (addChange == '-like_nums') {
+        this.orderLike = true
+      }
+      if (addChange == 'update_time') {
+        this.orderTime = false
+      }
+      if (addChange == '-update_time') {
+        this.orderTime = true
+      }
+      let articleType=this.$store.state.articleType
+      articleType.ordering = addChange
+      getArticle(articleType)
+        .then((response) => {
+          console.log(response)
+          this.articles = response.data.results
+          this.nextPage = response.data.next
+        }).catch((error) => {
+          console.log(error)
+      })
+    },
     toPrev () {
       axios.get(this.prevPage)
         .then((response) => {
@@ -93,7 +132,8 @@ export default {
       return moment(time).format('YYYY-MM-DD')
     },
     getAllArticle () {
-      getArticle ()
+      let articleType=this.$store.state.articleType
+      getArticle (articleType)
         .then((response)=> {
           console.log(response)
           this.articles = response.data.results
@@ -125,8 +165,16 @@ export default {
   },
   activated () {
     window.addEventListener('scroll', () => {
-      this.$store.commit('SET_STOP', document.documentElement.scrollTop)
-    })
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      let scroll = scrollTop - this.beforeScrollTop;
+      this.beforeScrollTop = scrollTop;
+      if (scroll > 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'down'})
+      }
+      if (scroll < 0) {
+        this.$store.commit('SET_STOP', {top:scrollTop, dir:'up'})
+      }
+    }, true)
   },
   deactivated () {
     window.removeEventListener('scroll', () => {
@@ -137,20 +185,22 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .article-image
+  .articles-image
+    position relative
     width 100%
     overflow hidden
     img
       width 100%
-    .article-title
+    .articles-title
+      display flex
+      align-content space-between
+      position absolute
+      width 100%
+      left 0
+      bottom 0
       color white
-      text-align left
-      font-size 30px
-      line-height 50px
-      margin-left 6px
-      margin-top -50px
-      margin-bottom 0
-      top 100%
+      font-size 25px
+      margin-bottom 10px
   .carousel-title
     display flex
     position absolute
@@ -183,9 +233,9 @@ export default {
           bottom 0
           color white
           font-size 25px
-          margin-left 0
-          margin-bottom 4px
-          background-color rgba(41,41,41,0.6)
+          margin-left 10px
+          margin-bottom 10px
+          background-color rgba(41,41,41,0.5)
       .article-content
         text-align left
         width 100%

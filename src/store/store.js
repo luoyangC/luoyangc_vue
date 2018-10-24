@@ -22,11 +22,15 @@ const articleType = {
   time: '',
   category: '',
   tag: '',
+  ordering: '',
 }
 
 const contentOffset = 6
 
-const scrollTop = 0
+const scrollTop = {
+  top:0,
+  dir:'',
+}
 
 const state = {
   userInfo,
