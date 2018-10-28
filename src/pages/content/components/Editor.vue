@@ -25,7 +25,7 @@
               <div>
                 <h3>文章封面</h3>
                 <el-upload class="avatar-uploader"
-                           action="http://47.98.207.4:8000/api/upload/"
+                           action="http://47.98.207.4/api/upload/"
                            :show-file-list="false"
                            :headers=header
                            :data="{upload_type:'article_img'}"
@@ -73,14 +73,14 @@
             :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
       <router-link tag="div" to="/article" >
         <div class="editor-item editor-back" style="float: left">
-          <el-button icon="el-icon-arrow-left" circle></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
           <span> Article</span>
         </div>
       </router-link>
       <router-link tag="div" to="/cross" >
         <div class="editor-item editor-next" style="float: right">
           <span>Cross </span>
-          <el-button icon="el-icon-arrow-right" circle></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
         </div>
       </router-link>
     </el-col>

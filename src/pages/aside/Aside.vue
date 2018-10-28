@@ -6,7 +6,7 @@
           <a @click="goHome"><i class="iconfont">&#xe6ca;</i></a>
           <a @click="headerClick"><i class="iconfont icon-caidan1"></i></a>
         </div>
-        <img src="@/assets/img.jpeg" class="img-full"/>
+        <img src="@/assets/img/img.jpeg" class="img-full"/>
       </el-col>
       <el-col>
         <el-menu :unique-opened=true class="el-menu-vertical" @open="handleOpen" @close="handleClose">

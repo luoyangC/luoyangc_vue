@@ -30,14 +30,14 @@
               :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/cross" >
         <div class="archives-item archives-back" style="float: left">
-          <el-button icon="el-icon-arrow-left" circle></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
           <span> Cross</span>
         </div>
         </router-link>
         <router-link tag="div" to="/about" >
         <div class="archives-item archives-next" style="float: right">
           <span>About </span>
-          <el-button icon="el-icon-arrow-right" circle></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
         </div>
         </router-link>
       </el-col>

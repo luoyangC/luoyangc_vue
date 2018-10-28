@@ -10,13 +10,16 @@
               </div>
               <div shadow="always" slot="description" :style="isLeft(index)" class="corss-item">
                 <el-card>
-                  <router-link :to="/content/+item.id"><h2>{{item.title}}</h2></router-link>
-                  <p style="text-align: right">tags：
+                  <router-link :to="/content/+item.id"><h2 class="mui-ellipsis-2">{{item.title}}</h2></router-link>
+                  <p class="hidden-sm-and-down" style="text-align: right">tags：
                     <a style="margin-left: 5px;color: #00a1d6"
                        v-for="(tag,index) in item.tags.split(',')" :key="index"
                        @click="changeArticleType('tag', tag)">{{tag}}</a>
                   </p>
-                  <p>{{item.profile}}</p>
+                  <p class="hidden-sm-and-up" style="text-align: left">tags：
+                    <a style="margin-left: 5px;color: #00a1d6" @click="changeArticleType('tag', tag)">{{item.tags.split(',')[0]}}</a>
+                  </p>
+                  <p class="mui-ellipsis-5">{{item.profile}}</p>
                 </el-card>
                 <div class="nav" :style="isLeftNav(index)"></div>
               </div>
@@ -28,14 +31,14 @@
               :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/message" >
           <div class="archives-item archives-back" style="float: left">
-            <el-button icon="el-icon-arrow-left" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
             <span> Message</span>
           </div>
         </router-link>
         <router-link tag="div" to="/archives" >
           <div class="archives-item archives-next" style="float: right">
             <span>Archives </span>
-            <el-button icon="el-icon-arrow-right" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
           </div>
         </router-link>
       </el-col>

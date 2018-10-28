@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex;flex-direction: column;">
+  <div style="display: flex;flex-direction: column;margin-top: 10px">
   <div style="position: absolute;align-self: flex-end; right: 50px" class="hidden-sm-and-down">
   </div>
   <div class="footer">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="footer-center">
-      <span>© 2018 luoyangc 本站于2018年10月20日上线</span>
+      <span>© 2018 luoyangc 本站已运行&nbsp;{{delta}}&nbsp;天</span>
     </div>
     <div>
       <span>Powered by <a style="color: black" href="https://www.aliyun.com/">阿里云</a></span>
@@ -34,11 +34,20 @@
 </template>
 
 <script>
-export default {
+  /* eslint-disable no-console */
+
+  export default {
   name: 'Footer',
   data() {
     return {
       timer: null,
+      date: new Date('2018,10,20')
+    }
+  },
+  computed: {
+    delta : function () {
+      let now = new Date()
+      return parseInt((now - this.date) / (1000 * 60 * 60 * 24))
     }
   }
 }

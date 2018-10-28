@@ -21,8 +21,8 @@
               <li>2019年毕业于南京信息工程大学滨江学院计算机系网络工程专业</li>
               <li>虽然所学为网络工程专业，但个人爱好更偏向于编程和Web方向，喜欢专研技术</li>
               <li>使用最熟练的编程语言是Python，熟悉Python Web主流框架，包括Flask、Django</li>
-              <li>同时也熟悉使用Python的分布式爬虫框架Scrapy，以及搜索引擎框架ElasticSearch</li>
-              <li>对于前端技术也有一定的了解，比如常用的前端框架Vue.js</li>
+              <li>同时也熟悉使用Python的分布式爬虫框架Scrapy，以及基于Java的搜索引擎框架ElasticSearch</li>
+              <li>对于前端技术也有一定的了解，比如基本的HTML、CSS、JS，熟悉使用前端框架Vue.js</li>
               <li>对于服务器部署方面也有一定的了解，熟悉Linux常用命令，熟悉Docker、Nginx等服务器软件</li>
               <li>对于新兴技术有着强烈的学习兴趣，如大数据、区块链、机器学习、人工智能等都有广泛关注</li>
               <li>未来发展目标是成为一名全栈工程师</li>
@@ -37,6 +37,7 @@
               <li>本站于2018年10月18日上线</li>
               <li>本站域名注册和服务器托管均使用<a href="https://www.aliyun.com/"> 阿里云</a></li>
               <li>本站是一个前后端分离的项目，通过RESTful API进行数据交互</li>
+              <li>本站从数据库设计到后端API到前端页面再到服务器部署，都由我一人独立完成</li>
               <li>前端使用Vue.js构建，后端使用Python的Django构建，数据库使用Mysql，缓存使用Redis，服务器使用Nginx</li>
               <li>并且整个项目通过Docker打包上线，所有源代码都以同步到我的 <a href="https://github.com/luoyangC">Github</a></li>
             </ul>
@@ -60,7 +61,7 @@
               :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/archives" >
           <div class="about-item about-back">
-            <el-button icon="el-icon-arrow-left" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
             <span> Record</span>
           </div>
         </router-link>

@@ -23,7 +23,7 @@
             <a @click="changeArticleType('tag', tag)">{{tag}}</a>
           </el-tag>
         </div>
-        <div class="content-info">
+        <div id="text" class="content-info">
           <mavon-editor
             :toolbars="toolbars"
             :subfield=false
@@ -140,13 +140,13 @@
       <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
               :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div class="content-item content-back" style="float: left">
-          <el-button icon="el-icon-arrow-left" circle @click="toBack"></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-left" circle @click="toBack"></el-button>
           <span> Back</span>
         </div>
         <router-link tag="div" to="/index" >
           <div class="content-item content-next" style="float: right">
             <span>Index </span>
-            <el-button icon="el-icon-arrow-right" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
           </div>
         </router-link>
       </el-col>
@@ -161,6 +161,7 @@ import VueMarkdown from 'vue-markdown'
 import {addComment, addReply, getArticleContent, getCommentList, deleteReply, deleteComment} from "../../../api/index"
 import {addFavArticle, deleteFavArticle, addLike, deleteLike} from "../../../api/index"
 import moment from 'moment'
+import countable from 'countable'
 export default {
   name: 'ArticleContent',
   components: {
@@ -183,6 +184,10 @@ export default {
     }
   },
   methods: {
+    countText () {
+      console.log('countable')
+      countable.count(document.getElementById('text'), counter => console.log(this, counter))
+    },
     changeArticleType (t,n) {
       this.$store.commit('SET_TYPE', {tag: n})
       this.$router.push('/article')
@@ -387,6 +392,7 @@ export default {
   activated () {
     this.getArticle()
     this.getComment()
+    this.countText()
     window.addEventListener('scroll', () => {
       let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
       let scroll = scrollTop - this.beforeScrollTop;

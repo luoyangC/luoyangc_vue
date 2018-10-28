@@ -12,7 +12,7 @@
             <el-form>
               <el-form-item>
                 <el-upload class="avatar-uploader"
-                           action="http://47.98.207.4:8000/api/upload/"
+                           action="http://47.98.207.4/api/upload/"
                            :show-file-list="false"
                            :headers=header
                            :data="{upload_type:'user_img'}"
@@ -108,7 +108,7 @@
             <el-form>
               <el-form-item>
                 <el-upload class="avatar-uploader"
-                           action="http://47.98.207.4:8000/api/upload/"
+                           action="http://47.98.207.4/api/upload/"
                            :show-file-list="false"
                            :headers=header
                            :on-success="handleAvatarSuccess"
@@ -203,13 +203,13 @@
     <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
             :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
       <div class="user-item user-back" style="float: left">
-        <el-button @click="goBack" icon="el-icon-arrow-left" circle></el-button>
+        <el-button class="pageBtn" @click="goBack" icon="el-icon-arrow-left" circle></el-button>
         <span> Back</span>
       </div>
       <router-link tag="div" to="/article" >
         <div class="user-item user-back" style="float: right">
           <span>Article </span>
-          <el-button icon="el-icon-arrow-right" circle></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
         </div>
       </router-link>
     </el-col>

@@ -10,6 +10,7 @@ import router from './router'
 import mavonEditor from 'mavon-editor'
 import hljs from 'highlight.js'
 
+
 //全局状态控制引入
 import store from './store/store';
 

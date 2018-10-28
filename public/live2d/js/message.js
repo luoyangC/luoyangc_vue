@@ -1,7 +1,7 @@
 var home_Path = document.location.protocol +'//' + window.document.location.hostname +'/';
-var message_Path = "http://localhost:8080/live2d/"
+var message_Path = "http://47.98.207.4/static/live2d/"
 var userAgent = window.navigator.userAgent.toLowerCase();
-var talkAPI = "http://localhost:8000/api/talk/"
+var talkAPI = "http://47.98.207.4/api/talk/"
 console.log(userAgent);
 var norunAI = [ "android", "iphone", "ipod", "ipad", "windows phone", "mqqbrowser" ,"msie","trident/7.0"];
 var norunFlag = false;

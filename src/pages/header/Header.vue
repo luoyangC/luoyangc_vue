@@ -3,7 +3,7 @@
     <div class="my-aside" :class="{active: isActive}">
       <div style="background-color: white">
         <div style="display: flex; justify-content: space-around;align-items: center">
-          <img src="@/assets/img.jpeg" class="img-full"/>
+          <img src="@/assets/img/img.jpeg" class="img-full"/>
           <div><i class="iconfont icon-caidan" @click="closeAside"></i></div>
         </div>
         <hr>

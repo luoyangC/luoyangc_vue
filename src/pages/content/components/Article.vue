@@ -9,7 +9,7 @@
             <div style="width: 100%;">
               <h1 style="margin: 0;padding-left:6px; display: inline-block;float: left">文章列表页</h1>
               <div style="float: right;font-size: 14px;color: #00a1d6; margin-top: 12px; padding-right: 6px">
-                <span style="color: black"><b>排序方式：</b></span>
+                <span style="color: #de92b5"><b>排序方式：</b></span>
                 <span v-if="orderLike"><a @click="getChangeArticle('like_nums')">热门<i class="el-icon-caret-bottom"></i></a></span>
                 <span v-else><a @click="getChangeArticle('-like_nums')">热门<i class="el-icon-caret-top"></i></a></span>
                 <span>&nbsp;</span>
@@ -22,21 +22,22 @@
         <div class="article-item" v-for="item of articles" :key="item.id">
           <div class="article-image">
             <router-link :to="/content/+item.id"><img :src="item.image || item.image_url"></router-link>
-            <div class="article-title">{{item.title}}</div>
+            <router-link :to="/content/+item.id"><div class="article-title">{{item.title}}</div></router-link>
           </div>
           <div class="article-content">
-            <div style="padding-top: 20px; padding-left: 16px; color: #757575!important; display: flex;justify-content: left">
-              <div style="width: 80%"><p class="line-limit-length">{{item.profile}}</p></div>
-              <router-link :to="/content/+item.id">阅读全文</router-link>
+            <div style="padding-top: 20px; padding-left: 16px; padding-right: 16px; color: #757575!important; display: flex;justify-content: left">
+              <div><p class="mui-ellipsis-2">{{item.profile}}</p></div>
             </div>
             <hr style="margin: 16px">
             <div class="editor-info">
-              <img :src="item.user.image" class="user-img" style="float: left" :alt="item.name"/>
-              <div style="margin-left: 10px; float: left; font-size: 12px;">
-                <p style="margin: 2px">{{item.user.nick_name}}</p>
-                <p>{{timeFormat(item.update_time)}}</p>
+              <div style="display: flex">
+                <div><img :src="item.user.image" class="user-img" :alt="item.name"/></div>
+                <div style="margin-left: 10px; font-size: 12px;">
+                  <p style="margin: 2px">{{item.user.nick_name}}</p>
+                  <p>{{timeFormat(item.update_time)}}</p>
+                </div>
               </div>
-              <div style="margin-right:16px;margin-top: 30px;float: right; font-size: small">
+              <div style="margin-right:16px;margin-top: 28px; font-size: small">
                 <a href="#">评论数: {{item.comment_nums}} </a>&nbsp;<a href="#">点赞数: {{item.fav_nums}} </a>&nbsp;<a href="#">阅读数: {{item.view_nums}} </a>
               </div>
             </div>
@@ -45,12 +46,12 @@
       </el-col>
       <el-col style="margin-top: 20px; background-color: rgba(222,146,181,0)" :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <div v-if="prevPage" class="article-item article-back" style="float: left;background-color: rgba(255,255,255,0);box-shadow: 0 0 0 0">
-          <el-button icon="el-icon-arrow-left" circle @click="toPrev"></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-left" circle @click="toPrev"></el-button>
           <span> Prev</span>
         </div>
         <div v-if="nextPage" class="article-item article-next" style="float: right;background-color: rgba(255,255,255,0);box-shadow: 0 0 0 0">
           <span>Next </span>
-          <el-button icon="el-icon-arrow-right" circle @click="toNext"></el-button>
+          <el-button class="pageBtn" icon="el-icon-arrow-right" circle @click="toNext"></el-button>
         </div>
       </el-col>
     </el-row>
@@ -177,6 +178,11 @@ export default {
     }, true)
   },
   deactivated () {
+    this.orderLike=false
+    this.orderTime=true
+    this.articles=[]
+    this.nextPage=''
+    this.prevPage=''
     window.removeEventListener('scroll', () => {
       this.$store.commit('SET_STOP', 0)
     })
@@ -185,6 +191,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .pageBtn
+    border: 0 solid;
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.75);
   .articles-image
     position relative
     width 100%
@@ -239,11 +248,13 @@ export default {
       .article-content
         text-align left
         width 100%
-        height 130px
         background-color rgba(255,255,255,1)
-        .user-img
-          width 44px
-          height 44px
-          border-radius 30px
-          margin-left 16px
+        .editor-info
+          display flex
+          justify-content space-between
+          .user-img
+            width 44px
+            height 44px
+            border-radius 30px
+            margin-left 16px
 </style>

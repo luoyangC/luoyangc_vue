@@ -73,13 +73,15 @@
     </el-row>
     <el-col style="margin-top: 40px; background-color: rgba(222,146,181,0)"
             :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
-      <router-link tag="div" to="/article" >
+      <router-link tag="div" to="/index" >
         <div class="registe-item registe-back" style="float: left">
-          <el-button icon="el-icon-arrow-left" circle></el-button>
-          <span> Article</span>
+          <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
+          <span> Index</span>
         </div>
       </router-link>
+      <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
     </el-col>
+    <div class="hidden-md-and-down" style="width: 100%;height: 100px;background-color: rgba(97,97,97,0)">&nbsp;</div>
   </div>
 </template>
 

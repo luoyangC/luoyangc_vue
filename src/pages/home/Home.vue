@@ -11,7 +11,7 @@
         <el-container>
           <el-main>
             <home-content></home-content>
-            <el-button class="hidden-sm-and-down" :style="opacityStyleBtn" @click="toTop" circle icon="el-icon-arrow-up"></el-button>
+            <el-button  class="pageBtn hidden-sm-and-down" :style="opacityStyleBtn" @click="toTop" circle icon="el-icon-arrow-up"></el-button>
           </el-main>
           <el-footer>
             <home-footer></home-footer>

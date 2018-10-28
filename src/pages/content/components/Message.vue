@@ -57,14 +57,14 @@
               :lg="{span: 12, offset: this.$store.state.contentOffset}" :md="{span: 18, offset: this.$store.state.contentOffset-2}">
         <router-link tag="div" to="/index" >
           <div class="message-item message-back" style="float: left">
-            <el-button icon="el-icon-arrow-left" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-left" circle></el-button>
             <span> Index</span>
           </div>
         </router-link>
         <router-link tag="div" to="/cross" >
           <div class="message-item message-next" style="float: right;background-color: rgba(255,255,255,0)">
             <span>Cross </span>
-            <el-button icon="el-icon-arrow-right" circle></el-button>
+            <el-button class="pageBtn" icon="el-icon-arrow-right" circle></el-button>
           </div>
         </router-link>
       </el-col>
